@@ -32,8 +32,10 @@ def frame():
 
     window.configure(background=bg1)
 
-    window.grid_rowconfigure(0, weight=1)
-    window.grid_columnconfigure(0, weight=1)
+    # window.grid_rowconfigure(0, weight=1)
+    # window.grid_columnconfigure(0, weight=1)
+
+    window.geometry('1400x700')
 
     x_cord = 75
     y_cord = 20
@@ -59,26 +61,26 @@ def frame():
 
     txt2 = tk.Entry(window, width=32, bg="white", fg="blue", font=('Times New Roman', 15, ' bold '))
     txt2.place(x=600 - x_cord, y=300 - y_cord)
+    #
+    # lbl3 = tk.Label(window, text="NOTIFICATION", width=20, fg="black", bg=bg1, height=2,
+    #                 font=('Times New Roman', 25, ' bold '))
+    # lbl3.place(x=1000 - x_cord, y=200 - y_cord)
+    #
+    # lbl4 = tk.Label(window, text="STEP 1", width=26, fg="red", bg=bg1, height=2,
+    #                 font=('Times New Roman', 20, ' bold '))
+    # lbl4.place(x=200 - x_cord, y=375 - y_cord)
+    #
+    # lbl5 = tk.Label(window, text="STEP 2", width=26, fg="red", bg=bg1, height=2,
+    #                 font=('Times New Roman', 20, ' bold '))
+    # lbl5.place(x=600 - x_cord, y=375 - y_cord)
+    #
+    # lbl6 = tk.Label(window, text="STEP 3", width=26, fg="red", bg=bg1, height=2,
+    #                 font=('Times New Roman', 20, ' bold '))
+    # lbl6.place(x=1000 - x_cord, y=375 - y_cord)
 
-    lbl3 = tk.Label(window, text="NOTIFICATION", width=20, fg="black", bg=bg1, height=2,
-                    font=('Times New Roman', 25, ' bold '))
-    lbl3.place(x=1000 - x_cord, y=200 - y_cord)
-
-    lbl4 = tk.Label(window, text="STEP 1", width=26, fg="red", bg=bg1, height=2,
-                    font=('Times New Roman', 20, ' bold '))
-    lbl4.place(x=200 - x_cord, y=375 - y_cord)
-
-    lbl5 = tk.Label(window, text="STEP 2", width=26, fg="red", bg=bg1, height=2,
-                    font=('Times New Roman', 20, ' bold '))
-    lbl5.place(x=600 - x_cord, y=375 - y_cord)
-
-    lbl6 = tk.Label(window, text="STEP 3", width=26, fg="red", bg=bg1, height=2,
-                    font=('Times New Roman', 20, ' bold '))
-    lbl6.place(x=1000 - x_cord, y=375 - y_cord)
-
-    takeImg = tk.Button(window, text="Student ID", command=Cheack_Login, fg=bg1, bg="blue", width=30,
+    borrow = tk.Button(window, text="Borrow", command=Cheack_Login, fg=bg1, bg="blue", width=30,
                         activebackground="pink", font=('Times New Roman', 15, ' bold '))
-    takeImg.place(x=200 - x_cord, y=500 - y_cord)
+    borrow.place(x=1000 - x_cord, y=500 - y_cord)
 
     takeImg = tk.Button(window, text="Image Capture Button", command=TakeImages, fg=bg1, bg="blue", width=30,
                         activebackground="pink", font=('Times New Roman', 15, ' bold '))
@@ -91,7 +93,7 @@ def frame():
     trackImg.place(x=1000 - x_cord, y=425 - y_cord)
     quitWindow = tk.Button(window, text="QUIT", command=quit_window, fg=bg1, bg="red", width=10,
                            activebackground="pink", font=('Times New Roman', 15, ' bold '))
-    quitWindow.place(x=700, y=735 - y_cord)
+    quitWindow.place(x=700, y=600 - y_cord)
 
     window.mainloop()
 
@@ -290,7 +292,7 @@ def Cheack_Login():
                          port=3306,
                          user='root',
                          passwd='cla051063',
-                         db='library3',
+                         db='abes',
                          charset='utf8'
                          )
     cursor = db.cursor()
@@ -347,14 +349,14 @@ def Borrow_frame():
     lable0 = tk.Label(window2, text=getid(), bg='pink', font=('微软雅黑', 50)).pack()  # 上
 
     lable1 = tk.Label(window2, text='请选择操作:', font=('微软雅黑', 20)).place(x=80, y=400)  # 下
-    tk.Button(window2, text=' 借  书', font=('微软雅黑', 15), width=10, height=2, command=borrow).place(x=350, y=250)
-    tk.Button(window2, text=' 还  书', font=('微软雅黑', 15), width=10, height=2, command=turnback).place(x=350, y=350)
+    tk.Button(window2, text='Borrow', font=('微软雅黑', 15), width=10, height=2, command=borrow).place(x=350, y=250)
+    tk.Button(window2, text='Return', font=('微软雅黑', 15), width=10, height=2, command=turnback).place(x=350, y=350)
     tk.Button(window2, text='信息查询', font=('微软雅黑', 15), width=10, height=2, command=search.frame).place(x=350, y=450)
 
     tk.Button(window2, text='QR code', font=('微软雅黑', 15), width=10, height=2, command=scan).place(x=350, y=550)
     tk.Button(window2, text='QR(Load)', font=('微软雅黑', 15), width=10, height=2, command=qrcode_show).place(x=500, y=550)
 
-    tk.Button(window2, text='out', font=('微软雅黑', 15), width=10, height=2, command=out).place(x=200, y=550)
+    tk.Button(window2, text='Logout', font=('微软雅黑', 15), width=10, height=2, command=out).place(x=200, y=550)
 
     window2.mainloop()
 
@@ -372,22 +374,18 @@ def getlog():
 def borrow():
     global win
     win = tk.Tk()
-    win.title('读者')
+    win.title('Borrower')
     win.geometry('900x300')
     win.wm_attributes('-topmost', 1)
-    lable1 = tk.Label(win, text='请填写所借图书的信息:(书名作者都要填写正确无误！)', bg='pink', font=('微软雅黑', 20)).place(x=30, y=100)
+    lable1 = tk.Label(win, text='Please fill in the information of the borrowed equipment:', bg='pink', font=('微软雅黑', 20)).place(x=30, y=100)
+    lable2 = tk.Label(win, text='(The equipment name should be filled in correctly!)', bg='pink', font=('微软雅黑', 20)).place(x=30, y=140)
 
-    global b_name
-    tk.Label(win, text='书名：', font=('宋体', 12)).place(x=200, y=200)
-    b_name = tk.Entry(win, font=('宋体', 12), width=10)
-    b_name.place(x=250, y=200)
+    global e_name
+    tk.Label(win, text='Equipment Name：', font=('宋体', 12)).place(x=140, y=200)
+    e_name = tk.Entry(win, font=('宋体', 12), width=10)
+    e_name.place(x=250, y=200)
 
-    global author
-    tk.Label(win, text='作者：', font=('宋体', 12)).place(x=350, y=200)
-    author = tk.Entry(win, font=('宋体', 12), width=10)
-    author.place(x=400, y=200)
-
-    tk.Button(win, text='确认借书', font=('宋体', 12), width=10, command=confirm_borrow).place(x=600, y=195)
+    tk.Button(win, text='Confirm Borrow', font=('宋体', 12), width=10, command=confirm_borrow).place(x=600, y=195)
 
 
 def confirm_borrow():
@@ -395,18 +393,18 @@ def confirm_borrow():
                          port=3306,
                          user='root',
                          passwd='cla051063',
-                         db='library3',
+                         db='abes',
                          charset='utf8'
                          )
     cursor = db.cursor()
-    sql0 = "SELECT amount FROM book WHERE name='%s' AND author='%s'" % (b_name.get(), author.get())
+    sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (e_name.get())
     cursor.execute(sql0)
     result = cursor.fetchone()
     if result:
         if result != '0':
             time = datetime.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
-            sql = "INSERT INTO borrow VALUES('%s','%s','%s','%s')" % (getid(), b_name.get(), author.get(), time)
-            sql1 = "UPDATE book SET amount=amount-1 WHERE name='%s' AND author='%s'" % (b_name.get(), author.get())
+            sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), e_name.get(), time)
+            sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (e_name.get())
             cursor.execute(sql)
             cursor.execute(sql1)
             msg.showinfo(title='成功！', message='借书成功！请一个月之内归还')
@@ -417,23 +415,24 @@ def confirm_borrow():
             msg.showinfo(title='失败！', message='您借的书库存不足！')
     else:
         msg.showinfo(title='错误！', message='未找到该书！')
+        print('未找到该书！')
 
 
 def turnback():  # 还书
     global win
     win = tk.Tk()
-    win.title('读者')
+    win.title('Borrower')
     win.geometry('550x600')
 
     db = pymysql.connect(host='127.0.0.1',
                          port=3306,
                          user='root',
                          passwd='cla051063',
-                         db='library3',
+                         db='abes',
                          charset='utf8'
                          )
     cursor = db.cursor()
-    sql0 = "SELECT COUNT(*) FROM borrow WHERE id='%s'" % (getid())
+    sql0 = "SELECT COUNT(*) FROM borrow WHERE userid='%s'" % (getid())
     cursor.execute(sql0)
     result = cursor.fetchone()
     if result[0] == 0:
@@ -443,11 +442,11 @@ def turnback():  # 还书
         tree = ttk.Treeview(win, columns=('1', '2'), show="headings")
         tree.column('1', width=150, anchor='center')
         tree.column('2', width=150, anchor='center')
-        tree.heading('1', text='书名')
-        tree.heading('2', text='作者')
+        tree.heading('1', text='Equipment')
+        tree.heading('2', text='Date')
         tree.place(x=100, y=100)
 
-        sql1 = "SELECT bookname,author FROM borrow WHERE id='%s'" % (getid())
+        sql1 = "SELECT name,date FROM borrow WHERE userid='%s'" % (getid())
         cursor.execute(sql1)
         result1 = cursor.fetchall()
         for i in range(0, result[0]):
@@ -455,17 +454,12 @@ def turnback():  # 还书
 
         lable2 = tk.Label(win, text='请输入还书信息：', bg='pink', font=('微软雅黑', 20)).place(x=80, y=360)
         lable22 = tk.Label(win, text='书名作者都要填写正确无误！', bg='pink', font=('微软雅黑', 20)).place(x=80, y=400)
-        global b_name
-        tk.Label(win, text='书名：', font=('宋体', 12)).place(x=80, y=480)
-        b_name = tk.Entry(win, font=('宋体', 12), width=10)
-        b_name.place(x=130, y=480)
+        global e_name
+        tk.Label(win, text='Equipment：', font=('宋体', 12)).place(x=80, y=480)
+        e_name = tk.Entry(win, font=('宋体', 12), width=10)
+        e_name.place(x=180, y=480)
 
-        global author
-        tk.Label(win, text='作者：', font=('宋体', 12)).place(x=230, y=480)
-        author = tk.Entry(win, font=('宋体', 12), width=10)
-        author.place(x=280, y=480)
-
-        tk.Button(win, text='确认还书', font=('宋体', 12), width=10, command=confirm_turnback).place(x=395, y=480)
+        tk.Button(win, text='Confirm Turn back', font=('宋体', 12), width=10, command=confirm_turnback).place(x=395, y=480)
     db.close()
 
 
@@ -474,17 +468,17 @@ def confirm_turnback():
                          port=3306,
                          user='root',
                          passwd='cla051063',
-                         db='library3',
+                         db='abes',
                          charset='utf8'
                          )
     cursor = db.cursor()
 
-    sql1 = "UPDATE book SET amount=amount+1 WHERE name='%s' AND author='%s'" % (b_name.get(), author.get())
+    sql1 = "UPDATE equipment SET amount=amount+1 WHERE name='%s'" % (e_name.get())
     cursor.execute(sql1)
     db.commit()
 
     time1 = datetime.datetime.now()  # 获取现在的时间
-    sql2 = "SELECT date FROM borrow WHERE bookname='%s' AND author='%s'" % (b_name.get(), author.get())
+    sql2 = "SELECT date FROM borrow WHERE name='%s'" % (e_name.get())
     cursor.execute(sql2)
     result = cursor.fetchone()
     day = (time1 - result[0]).days  # 得到时间差，检查图书是否超期
@@ -493,11 +487,12 @@ def confirm_turnback():
         msg.showinfo(title='还书成功', message='还书成功，但您已经超期！请下次按时归还')
     else:
         msg.showinfo(title='还书成功', message='还书成功，且未超过30天')
-    sql0 = "DELETE FROM borrow WHERE bookname='%s' AND author='%s'" % (b_name.get(), author.get())
+    sql0 = "DELETE FROM borrow WHERE name='%s' AND userid='%s'" % (e_name.get(), getid())
     cursor.execute(sql0)
     db.commit()
     db.close()
     win.destroy()
+
 
 
 def qrcode_show():
@@ -506,7 +501,7 @@ def qrcode_show():
     win.title('QR code borrow')
     win.geometry('700x600')
     lable0 = tk.Label(win, text=gettext(), bg='pink', font=('微软雅黑', 50)).pack()  # 上
-    tk.Button(win, text='确认借书', font=('宋体', 12), width=10, command=confirm_qrcode_borrow).place(x=600, y=195)
+    tk.Button(win, text='Confirm Borrow', font=('宋体', 12), width=10, command=confirm_qrcode_borrow).place(x=300, y=195)
     win.mainloop()
 
 
@@ -515,20 +510,19 @@ def confirm_qrcode_borrow():
                          port=3306,
                          user='root',
                          passwd='cla051063',
-                         db='library3',
+                         db='abes',
                          charset='utf8'
                          )
     cursor = db.cursor()
     # test qrcode
-    author = "abc"
-    sql0 = "SELECT amount FROM book WHERE name='%s' AND author='%s'" % (gettext(), author)
+    sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (gettext())
     cursor.execute(sql0)
     result = cursor.fetchone()
     if result:
         if result != '0':
             time = datetime.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
-            sql = "INSERT INTO borrow VALUES('%s','%s','%s','%s')" % (getid(), gettext(), author, time)
-            sql1 = "UPDATE book SET amount=amount-1 WHERE name='%s' AND author='%s'" % (gettext(), author)
+            sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), gettext(), time)
+            sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (gettext())
             cursor.execute(sql)
             cursor.execute(sql1)
             msg.showinfo(title='成功！', message='借书成功！请一个月之内归还')
