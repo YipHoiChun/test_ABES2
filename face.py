@@ -32,68 +32,62 @@ def frame():
 
     window.configure(background=bg1)
 
-    # window.grid_rowconfigure(0, weight=1)
-    # window.grid_columnconfigure(0, weight=1)
+    window.geometry('900x700')
 
-    window.geometry('1400x700')
+    # Add image file
+    bg = tk.PhotoImage(file="bg.png")
+
+    # Create Canvas
+    canvas1 = tk.Canvas(window, width=900,
+                        height=700)
+
+    canvas1.pack(fill="both", expand=True)
+
+    # Display image
+    canvas1.create_image(0, 0, image=bg,
+                         anchor="nw")
 
     x_cord = 75
     y_cord = 20
     checker = 0
 
-    message = tk.Label(window, text=" Automatic Borrow Equipment System", bg=bg1, fg="black", width=40, height=1,
+    message = tk.Label(window, text=" Automatic Borrow Equipment System", bg="white", fg="black", width=40, height=1,
                        font=('Times New Roman', 35, 'bold underline'))
     message.place(x=200, y=20)
     message.pack()
 
     lbl = tk.Label(window, text="Enter Your Student ID", width=20, height=2, fg="black", bg=bg1,
-                   font=('Times New Roman', 25, ' bold '))
-    lbl.place(x=200 - x_cord, y=200 - y_cord)
+                   font=('Times New Roman', 25, 'bold'))
+    lbl.place(x=100 - x_cord, y=100 - y_cord)
 
     global txt, txt2
 
     txt = tk.Entry(window, width=32, bg="white", fg="blue", font=('Times New Roman', 15, ' bold '))
-    txt.place(x=200 - x_cord, y=300 - y_cord)
+    txt.place(x=100 - x_cord, y=150 - y_cord)
 
     lbl2 = tk.Label(window, text="Enter Your Name", width=20, fg="black", bg=bg1, height=2,
                     font=('Times New Roman', 25, ' bold '))
-    lbl2.place(x=600 - x_cord, y=200 - y_cord)
+    lbl2.place(x=100 - x_cord, y=200 - y_cord)
 
     txt2 = tk.Entry(window, width=32, bg="white", fg="blue", font=('Times New Roman', 15, ' bold '))
-    txt2.place(x=600 - x_cord, y=300 - y_cord)
-    #
-    # lbl3 = tk.Label(window, text="NOTIFICATION", width=20, fg="black", bg=bg1, height=2,
-    #                 font=('Times New Roman', 25, ' bold '))
-    # lbl3.place(x=1000 - x_cord, y=200 - y_cord)
-    #
-    # lbl4 = tk.Label(window, text="STEP 1", width=26, fg="red", bg=bg1, height=2,
-    #                 font=('Times New Roman', 20, ' bold '))
-    # lbl4.place(x=200 - x_cord, y=375 - y_cord)
-    #
-    # lbl5 = tk.Label(window, text="STEP 2", width=26, fg="red", bg=bg1, height=2,
-    #                 font=('Times New Roman', 20, ' bold '))
-    # lbl5.place(x=600 - x_cord, y=375 - y_cord)
-    #
-    # lbl6 = tk.Label(window, text="STEP 3", width=26, fg="red", bg=bg1, height=2,
-    #                 font=('Times New Roman', 20, ' bold '))
-    # lbl6.place(x=1000 - x_cord, y=375 - y_cord)
+    txt2.place(x=100 - x_cord, y=250 - y_cord)
 
-    borrow = tk.Button(window, text="Borrow", command=Cheack_Login, fg=bg1, bg="blue", width=30,
+    takeImg = tk.Button(window, text="Image Capture Button", command=TakeImages, fg="black", bg="blue", width=30,
                         activebackground="pink", font=('Times New Roman', 15, ' bold '))
-    borrow.place(x=1000 - x_cord, y=500 - y_cord)
+    takeImg.place(x=100 - x_cord, y=300 - y_cord)
+    trainImg = tk.Button(window, text="Model Training Button", command=TrainImages, fg="black", bg="blue", width=30,
+                         activebackground="pink", font=('Times New Roman', 15, ' bold '))
+    trainImg.place(x=100 - x_cord, y=350 - y_cord)
+    borrow = tk.Button(window, text="Borrow", command=Cheack_Login, fg="black", bg="blue", width=30,
+                       activebackground="pink", font=('Times New Roman', 15, ' bold '))
+    borrow.place(x=400 - x_cord, y=500 - y_cord)
 
-    takeImg = tk.Button(window, text="Image Capture Button", command=TakeImages, fg=bg1, bg="blue", width=30,
-                        activebackground="pink", font=('Times New Roman', 15, ' bold '))
-    takeImg.place(x=200 - x_cord, y=425 - y_cord)
-    trainImg = tk.Button(window, text="Model Training Button", command=TrainImages, fg=bg1, bg="blue", width=30,
+    trackImg = tk.Button(window, text="Test Face Button", command=TrackImages, fg="black",  width=30,
                          activebackground="pink", font=('Times New Roman', 15, ' bold '))
-    trainImg.place(x=600 - x_cord, y=425 - y_cord)
-    trackImg = tk.Button(window, text="Test Face Button", command=TrackImages, fg=bg1, bg="red", width=30,
-                         activebackground="pink", font=('Times New Roman', 15, ' bold '))
-    trackImg.place(x=1000 - x_cord, y=425 - y_cord)
-    quitWindow = tk.Button(window, text="QUIT", command=quit_window, fg=bg1, bg="red", width=10,
+    trackImg.place(x=400 - x_cord, y=425 - y_cord)
+    quitWindow = tk.Button(window, text="QUIT", command=quit_window, fg="black",  width=10,
                            activebackground="pink", font=('Times New Roman', 15, ' bold '))
-    quitWindow.place(x=700, y=600 - y_cord)
+    quitWindow.place(x=400, y=600 - y_cord)
 
     window.mainloop()
 
@@ -231,8 +225,8 @@ def TrackImages():
     df = pd.read_csv("StudentDetails/StudentDetails.csv")
     cam = cv2.VideoCapture(0)
     font = cv2.FONT_HERSHEY_SIMPLEX
-    col_names = ['Id', 'Name', 'Date', 'Time']
-    attendance = pd.DataFrame(columns=col_names)
+    # col_names = ['Id', 'Name', 'Date', 'Time']
+    # attendance = pd.DataFrame(columns=col_names)
     while True:
         ret, im = cam.read()
         gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
@@ -241,13 +235,12 @@ def TrackImages():
             cv2.rectangle(im, (x, y), (x + w, y + h), (225, 0, 0), 2)
             Id, conf = recognizer.predict(gray[y:y + h, x:x + w])
             if 'Id' in df and (conf < 50):
-                ts = time.time()
-                date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
-                timeStamp = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
+                # ts = time.time()
+                # date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
+                # timeStamp = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
                 aa = df.loc[df['Id'] == Id]['Name'].values
-                # tt = str(Id) + "-" + str(aa)
                 tt = str(Id) + "-" + aa
-                attendance.loc[len(attendance)] = [Id, aa, date, timeStamp]
+                # attendance.loc[len(attendance)] = [Id, aa, date, timeStamp]
 
             else:
                 Id = 'Unknown'
@@ -256,7 +249,7 @@ def TrackImages():
                 noOfFile = len(os.listdir("ImagesUnknown")) + 1
                 cv2.imwrite("ImagesUnknown/Image" + str(noOfFile) + ".jpg", im[y:y + h, x:x + w])
             cv2.putText(im, str(tt), (x, y + h), font, 1, (255, 255, 255), 2)
-        attendance = attendance.drop_duplicates(subset=['Id'], keep='first')
+        # attendance = attendance.drop_duplicates(subset=['Id'], keep='first')
         cv2.imshow('im', im)
         if (cv2.waitKey(1) == ord('1')):
             break
@@ -265,9 +258,6 @@ def TrackImages():
     getid()
     Cheack_Log(text1='login')
     cv2.destroyAllWindows()
-    # Cheack_Login()
-    # time.sleep(10)
-    # Cheack_Login()
 
 
 def Cheack_Log(text1):
@@ -282,9 +272,6 @@ def Cheack_Log(text1):
         print(text1)
     else:
         print("error")
-
-
-
 
 
 def Cheack_Login():
@@ -346,30 +333,30 @@ def Borrow_frame():
     window2 = tk.Tk()
     window2.title('Borrow')
     window2.geometry('700x600')
-    lable0 = tk.Label(window2, text=getid(), bg='pink', font=('微软雅黑', 50)).pack()  # 上
+    lable0 = tk.Label(window2, text=getid(), font=('Microsoft YaHei', 50)).pack()  # 上
 
-    lable1 = tk.Label(window2, text='请选择操作:', font=('微软雅黑', 20)).place(x=80, y=400)  # 下
-    tk.Button(window2, text='Borrow', font=('微软雅黑', 15), width=10, height=2, command=borrow).place(x=350, y=250)
-    tk.Button(window2, text='Return', font=('微软雅黑', 15), width=10, height=2, command=turnback).place(x=350, y=350)
-    tk.Button(window2, text='信息查询', font=('微软雅黑', 15), width=10, height=2, command=search.frame).place(x=350, y=450)
+    lable1 = tk.Label(window2, text='Please select:', font=('Microsoft YaHei', 20)).place(x=80, y=400)  # 下
+    tk.Button(window2, text='Borrow', font=('Microsoft YaHei', 15), width=10, height=2, command=borrow).place(x=350, y=250)
+    tk.Button(window2, text='Return', font=('Microsoft YaHei', 15), width=10, height=2, command=turnback).place(x=350, y=350)
+    tk.Button(window2, text='Search', font=('Microsoft YaHei', 15), width=10, height=2, command=search.frame).place(x=350, y=450)
 
-    tk.Button(window2, text='QR code', font=('微软雅黑', 15), width=10, height=2, command=scan).place(x=350, y=550)
-    tk.Button(window2, text='QR(Load)', font=('微软雅黑', 15), width=10, height=2, command=qrcode_show).place(x=500, y=550)
+    tk.Button(window2, text='QR code', font=('Microsoft YaHei', 15), width=10, height=2, command=scan).place(x=350, y=550)
+    tk.Button(window2, text='QR(Load)', font=('Microsoft YaHei', 15), width=10, height=2, command=qrcode_show).place(x=500, y=550)
 
-    tk.Button(window2, text='Logout', font=('微软雅黑', 15), width=10, height=2, command=out).place(x=200, y=550)
+    tk.Button(window2, text='Logout', font=('Microsoft YaHei', 15), width=10, height=2, command=out).place(x=200, y=550)
 
     window2.mainloop()
 
 
 def out():
-    # sys.exit
-    # text1 = 'logout'
     text1 = 'logout'
     Cheack_Log(text1)
     window2.destroy()
 
+
 def getlog():
     return log
+
 
 def borrow():
     global win
@@ -377,15 +364,17 @@ def borrow():
     win.title('Borrower')
     win.geometry('900x300')
     win.wm_attributes('-topmost', 1)
-    lable1 = tk.Label(win, text='Please fill in the information of the borrowed equipment:', bg='pink', font=('微软雅黑', 20)).place(x=30, y=100)
-    lable2 = tk.Label(win, text='(The equipment name should be filled in correctly!)', bg='pink', font=('微软雅黑', 20)).place(x=30, y=140)
+    lable1 = tk.Label(win, text='Please fill in the information of the borrowed equipment:', bg='pink',
+                      font=('Microsoft YaHei', 20)).place(x=30, y=100)
+    lable2 = tk.Label(win, text='(The equipment name should be filled in correctly!)', bg='pink',
+                      font=('Microsoft YaHei', 20)).place(x=30, y=140)
 
     global e_name
-    tk.Label(win, text='Equipment Name：', font=('宋体', 12)).place(x=140, y=200)
+    tk.Label(win, text='Equipment Name：', font=('Microsoft YaHei', 12)).place(x=140, y=200)
     e_name = tk.Entry(win, font=('宋体', 12), width=10)
     e_name.place(x=250, y=200)
 
-    tk.Button(win, text='Confirm Borrow', font=('宋体', 12), width=10, command=confirm_borrow).place(x=600, y=195)
+    tk.Button(win, text='Confirm Borrow', font=('Microsoft YaHei', 12), width=10, command=confirm_borrow).place(x=600, y=195)
 
 
 def confirm_borrow():
@@ -407,15 +396,14 @@ def confirm_borrow():
             sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (e_name.get())
             cursor.execute(sql)
             cursor.execute(sql1)
-            msg.showinfo(title='成功！', message='借书成功！请一个月之内归还')
+            msg.showinfo(title='Success！', message='The equipment is successfully borrowed!')
             db.commit()
             db.close()
             win.destroy()
         else:
-            msg.showinfo(title='失败！', message='您借的书库存不足！')
+            msg.showinfo(title='Error！', message='The equipment is out of stock!')
     else:
-        msg.showinfo(title='错误！', message='未找到该书！')
-        print('未找到该书！')
+        msg.showinfo(title='Error！', message='The equipment was not found！')
 
 
 def turnback():  # 还书
@@ -436,9 +424,10 @@ def turnback():  # 还书
     cursor.execute(sql0)
     result = cursor.fetchone()
     if result[0] == 0:
-        msg.showinfo(title='错误', message='您还没借过书呢！')
+        msg.showinfo(title='Error', message='You have not borrowed an equipment yet！')
     else:
-        lable1 = tk.Label(win, text='查询到您有以下书目未还：', bg='pink', font=('微软雅黑', 20)).place(x=80, y=20)
+        lable1 = tk.Label(win, text='The following equipment on the unreturned：', bg='pink', font=('Microsoft YaHei', 20)).place(
+            x=80, y=20)
         tree = ttk.Treeview(win, columns=('1', '2'), show="headings")
         tree.column('1', width=150, anchor='center')
         tree.column('2', width=150, anchor='center')
@@ -452,14 +441,17 @@ def turnback():  # 还书
         for i in range(0, result[0]):
             tree.insert('', i, values=(result1[i]))
 
-        lable2 = tk.Label(win, text='请输入还书信息：', bg='pink', font=('微软雅黑', 20)).place(x=80, y=360)
-        lable22 = tk.Label(win, text='书名作者都要填写正确无误！', bg='pink', font=('微软雅黑', 20)).place(x=80, y=400)
+        lable2 = tk.Label(win, text='Please enter your equipment return information：', bg='pink',
+                          font=('Microsoft YaHei', 20)).place(x=80, y=360)
+        lable22 = tk.Label(win, text='The equipment name should be filled in correctly！', bg='pink',
+                           font=('Microsoft YaHei', 20)).place(x=80, y=400)
         global e_name
-        tk.Label(win, text='Equipment：', font=('宋体', 12)).place(x=80, y=480)
-        e_name = tk.Entry(win, font=('宋体', 12), width=10)
+        tk.Label(win, text='Equipment：', font=('Microsoft YaHei', 12)).place(x=80, y=480)
+        e_name = tk.Entry(win, font=('Microsoft YaHei', 12), width=10)
         e_name.place(x=180, y=480)
 
-        tk.Button(win, text='Confirm Turn back', font=('宋体', 12), width=10, command=confirm_turnback).place(x=395, y=480)
+        tk.Button(win, text='Confirm Turn back', font=('Microsoft YaHei', 12), width=10, command=confirm_turnback).place(x=395,
+                                                                                                            y=480)
     db.close()
 
 
@@ -484,9 +476,9 @@ def confirm_turnback():
     day = (time1 - result[0]).days  # 得到时间差，检查图书是否超期
     print(day)
     if day > 30:
-        msg.showinfo(title='还书成功', message='还书成功，但您已经超期！请下次按时归还')
+        msg.showinfo(title='Successful return', message='You are overdue! Please return it on time next time!')
     else:
-        msg.showinfo(title='还书成功', message='还书成功，且未超过30天')
+        msg.showinfo(title='Successful return', message='Return the book successfully, and not more than 30 days')
     sql0 = "DELETE FROM borrow WHERE name='%s' AND userid='%s'" % (e_name.get(), getid())
     cursor.execute(sql0)
     db.commit()
@@ -494,14 +486,13 @@ def confirm_turnback():
     win.destroy()
 
 
-
 def qrcode_show():
     global win
     win = tk.Tk()
     win.title('QR code borrow')
     win.geometry('700x600')
-    lable0 = tk.Label(win, text=gettext(), bg='pink', font=('微软雅黑', 50)).pack()  # 上
-    tk.Button(win, text='Confirm Borrow', font=('宋体', 12), width=10, command=confirm_qrcode_borrow).place(x=300, y=195)
+    lable0 = tk.Label(win, text=get_text(), bg='pink', font=('Microsoft YaHei', 50)).pack()  # 上
+    tk.Button(win, text='Confirm Borrow', font=('Microsoft YaHei', 12), width=10, command=confirm_qrcode_borrow).place(x=300, y=195)
     win.mainloop()
 
 
@@ -515,24 +506,24 @@ def confirm_qrcode_borrow():
                          )
     cursor = db.cursor()
     # test qrcode
-    sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (gettext())
+    sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (get_text())
     cursor.execute(sql0)
     result = cursor.fetchone()
     if result:
         if result != '0':
             time = datetime.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
-            sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), gettext(), time)
-            sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (gettext())
+            sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), get_text(), time)
+            sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (get_text())
             cursor.execute(sql)
             cursor.execute(sql1)
-            msg.showinfo(title='成功！', message='借书成功！请一个月之内归还')
+            msg.showinfo(title='Success！', message='Borrowed book successfully!')
             db.commit()
             db.close()
             win.destroy()
         else:
-            msg.showinfo(title='失败！', message='您借的书库存不足！')
+            msg.showinfo(title='Error！', message='Your borrowed equipment is out of stock！')
     else:
-        msg.showinfo(title='错误！', message='未找到该书！')
+        msg.showinfo(title='Error！', message='The equipment was not found！')
 
 
 def scan():
@@ -550,7 +541,7 @@ def scan():
             pass
         if text1:
             print(text1)
-            gettext()
+            get_text()
             break
 
         key = cv2.waitKey(10)
@@ -564,5 +555,5 @@ def scan_qrcode(qrcode):
     return data[0].data.decode('utf-8')
 
 
-def gettext():
+def get_text():
     return text1

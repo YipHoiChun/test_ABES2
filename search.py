@@ -52,7 +52,7 @@ def search():
     elif list.get() != 'All' and e_name.get() != '':
         sql = "SELECT * FROM equipment WHERE type='%s' AND name='%s'" % (list.get(), e_name.get())
     else:
-        sql = "SELECT * FROM book WHERE type='%s' AND name='%s'" % (
+        sql = "SELECT * FROM equipment WHERE type='%s' AND name='%s'" % (
         list.get(), e_name.get())
 
     # db = pymysql.connect("localhost", "root", "qwer", "library")

@@ -5,17 +5,27 @@ import pymysql
 import ID
 
 
-def frame():  # 管理员界面
+def frame():  # Manager frame
     global root
     root = tk.Tk()
     root.geometry('900x700')
-    root.title('IVE借用設備系统')
-    lable0 = tk.Label(root, text='Manager Login', bg='pink', font=('微软雅黑', 50)).pack()  # 上
+    root.title('Borrow Equipment System')
+    # Add image file
+    bg = tk.PhotoImage(file="bg.png")
+    # Create Canvas
+    canvas1 = tk.Canvas(root, width=900,
+                        height=700)
+    canvas1.pack(fill="both", expand=True)
+    # Display image
+    canvas1.create_image(0, 0, image=bg,
+                         anchor="nw")
+    lable0 = tk.Label(root, text='Manager Login', font=('Microsoft YaHei', 50)).place(x=300, y=100)
 
-    lable1 = tk.Label(root, text='Please select:', font=('微软雅黑', 20)).place(x=80, y=400)  # 下
-    tk.Button(root, text='Login', font=('微软雅黑', 15), width=10, height=2, command=login).place(x=150, y=500)
-    tk.Button(root, text='Register', font=('微软雅黑', 15), width=10, height=2, command=register).place(x=350, y=500)
-    tk.Button(root, text='Quit', font=('微软雅黑', 15), width=10, height=2, command=exit_manager).place(x=550, y=500)
+    lable1 = tk.Label(root, text='Please select:', font=('Microsoft YaHei', 20)).place(x=80, y=400)
+
+    tk.Button(root, text='Login', font=('Microsoft YaHei', 15), width=10, height=2, command=login).place(x=150, y=500)
+    tk.Button(root, text='Register', font=('Microsoft YaHei', 15), width=10, height=2, command=register).place(x=350, y=500)
+    tk.Button(root, text='Quit', font=('Microsoft YaHei', 15), width=10, height=2, command=exit_manager).place(x=550, y=500)
     root.mainloop()
 
 
