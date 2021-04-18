@@ -1,7 +1,7 @@
 import pymysql
 
 
-def insert_Many():
+def delete_all():
     try:
         db = pymysql.connect(host='127.0.0.1',
                              port=3306,
@@ -14,13 +14,14 @@ def insert_Many():
         print('Failed to connect to mysql database')
     else:
         cursor = db.cursor()
-        sql = "INSERT INTO book VALUES('%s','%s','%s')" % (333, 'iPhone', '2021-04-01 00:00:00')
+        sql = "TRUNCATE TABLE book"
         cursor.execute(sql)
         db.commit()
+        print('Delete all book')
     finally:
         cursor.close()
         db.close()
 
 
 if __name__ == '__main__':
-    insert_Many()
+    delete_all()

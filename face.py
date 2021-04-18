@@ -82,10 +82,10 @@ def frame():
                        activebackground="pink", font=('Times New Roman', 15, ' bold '))
     borrow.place(x=400 - x_cord, y=500 - y_cord)
 
-    trackImg = tk.Button(window, text="Test Face Button", command=TrackImages, fg="black",  width=30,
+    trackImg = tk.Button(window, text="Test Face Button", command=TrackImages, fg="black", width=30,
                          activebackground="pink", font=('Times New Roman', 15, ' bold '))
     trackImg.place(x=400 - x_cord, y=425 - y_cord)
-    quitWindow = tk.Button(window, text="QUIT", command=quit_window, fg="black",  width=10,
+    quitWindow = tk.Button(window, text="QUIT", command=quit_window, fg="black", width=10,
                            activebackground="pink", font=('Times New Roman', 15, ' bold '))
     quitWindow.place(x=400, y=600 - y_cord)
 
@@ -336,12 +336,17 @@ def Borrow_frame():
     lable0 = tk.Label(window2, text=getid(), font=('Microsoft YaHei', 50)).pack()  # 上
 
     lable1 = tk.Label(window2, text='Please select:', font=('Microsoft YaHei', 20)).place(x=80, y=400)  # 下
-    tk.Button(window2, text='Borrow', font=('Microsoft YaHei', 15), width=10, height=2, command=borrow).place(x=350, y=250)
-    tk.Button(window2, text='Return', font=('Microsoft YaHei', 15), width=10, height=2, command=turnback).place(x=350, y=350)
-    tk.Button(window2, text='Search', font=('Microsoft YaHei', 15), width=10, height=2, command=search.frame).place(x=350, y=450)
+    tk.Button(window2, text='Borrow', font=('Microsoft YaHei', 15), width=10, height=2, command=borrow).place(x=350,
+                                                                                                              y=250)
+    tk.Button(window2, text='Return', font=('Microsoft YaHei', 15), width=10, height=2, command=turnback).place(x=350,
+                                                                                                                y=350)
+    tk.Button(window2, text='Search', font=('Microsoft YaHei', 15), width=10, height=2, command=search.frame).place(
+        x=350, y=450)
 
-    tk.Button(window2, text='QR code', font=('Microsoft YaHei', 15), width=10, height=2, command=scan).place(x=350, y=550)
-    tk.Button(window2, text='QR(Load)', font=('Microsoft YaHei', 15), width=10, height=2, command=qrcode_show).place(x=500, y=550)
+    tk.Button(window2, text='QR code', font=('Microsoft YaHei', 15), width=10, height=2, command=scan).place(x=350,
+                                                                                                             y=550)
+    tk.Button(window2, text='QR(Load)', font=('Microsoft YaHei', 15), width=10, height=2, command=qrcode_show).place(
+        x=500, y=550)
 
     tk.Button(window2, text='Logout', font=('Microsoft YaHei', 15), width=10, height=2, command=out).place(x=200, y=550)
 
@@ -371,10 +376,11 @@ def borrow():
 
     global e_name
     tk.Label(win, text='Equipment Name：', font=('Microsoft YaHei', 12)).place(x=140, y=200)
-    e_name = tk.Entry(win, font=('宋体', 12), width=10)
+    e_name = tk.Entry(win, font=('Microsoft YaHei', 12), width=10)
     e_name.place(x=250, y=200)
 
-    tk.Button(win, text='Confirm Borrow', font=('Microsoft YaHei', 12), width=10, command=confirm_borrow).place(x=600, y=195)
+    tk.Button(win, text='Confirm Borrow', font=('Microsoft YaHei', 12), width=10, command=confirm_borrow).place(x=600,
+                                                                                                                y=195)
 
 
 def confirm_borrow():
@@ -386,24 +392,105 @@ def confirm_borrow():
                          charset='utf8'
                          )
     cursor = db.cursor()
-    sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (e_name.get())
-    cursor.execute(sql0)
-    result = cursor.fetchone()
-    if result:
-        if result != '0':
-            time = datetime.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
-            sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), e_name.get(), time)
-            sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (e_name.get())
-            cursor.execute(sql)
-            cursor.execute(sql1)
-            msg.showinfo(title='Success！', message='The equipment is successfully borrowed!')
-            db.commit()
-            db.close()
-            win.destroy()
+    sql3 = "SELECT COUNT(*) FROM book WHERE userid='%s' AND name='%s'" % (getid(), e_name.get())
+    cursor.execute(sql3)
+    result3 = cursor.fetchone()
+    print(result3)
+    if result3 is None:
+        sql = "SELECT name FROM borrow WHERE name='%s'" % (e_name.get())
+        cursor.execute(sql)
+        result2 = cursor.fetchone()
+        if result2 is None:
+            sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (e_name.get())
+            cursor.execute(sql0)
+            result = cursor.fetchone()
+            if result:
+                if result != '0':
+                    time = datetime.datetime.now().strftime('%F')
+                    sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), e_name.get(), time)
+                    sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (e_name.get())
+                    cursor.execute(sql)
+                    cursor.execute(sql1)
+                    msg.showinfo(title='Success！', message='The equipment is successfully borrowed!')
+                    db.commit()
+                    db.close()
+                    win.destroy()
+                else:
+                    msg.showinfo(title='Error！', message='The equipment is out of stock!')
+            else:
+                msg.showinfo(title='Error！', message='The equipment was not found！')
         else:
-            msg.showinfo(title='Error！', message='The equipment is out of stock!')
+            db.close()
+            msg.showinfo(title='Error！', message='You have borrow！')
+
     else:
-        msg.showinfo(title='Error！', message='The equipment was not found！')
+        # db.close()
+        sql4 = "UPDATE equipment SET amount=amount+1 WHERE name='%s'" % (e_name.get())
+        cursor.execute(sql4)
+        sql5 = "DELETE FROM book WHERE name='%s' AND userid='%s'" % (e_name.get(), getid())
+        cursor.execute(sql5)
+        # print("delete book")
+        sql = "SELECT name FROM borrow WHERE name='%s'" % (e_name.get())
+        cursor.execute(sql)
+        result2 = cursor.fetchone()
+        if result2 is None:
+            sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (e_name.get())
+            cursor.execute(sql0)
+            result = cursor.fetchone()
+            if result:
+                if result != '0':
+                    time = datetime.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
+                    sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), e_name.get(), time)
+                    sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (e_name.get())
+                    cursor.execute(sql)
+                    cursor.execute(sql1)
+                    msg.showinfo(title='Success！', message='The equipment is successfully borrowed!')
+                    db.commit()
+                    db.close()
+                    win.destroy()
+                else:
+                    msg.showinfo(title='Error！', message='The equipment is out of stock!')
+            else:
+                msg.showinfo(title='Error！', message='The equipment was not found！')
+        else:
+            db.close()
+            msg.showinfo(title='Error！', message='You have borrow！')
+
+
+# def confirm_borrow():
+#     db = pymysql.connect(host='127.0.0.1',
+#                          port=3306,
+#                          user='root',
+#                          passwd='cla051063',
+#                          db='abes',
+#                          charset='utf8'
+#                          )
+#     cursor = db.cursor()
+#     sql = "SELECT name FROM borrow WHERE name='%s' AND userid='%s'" % (e_name.get(), getid())
+#     cursor.execute(sql)
+#     result2 = cursor.fetchone()
+#     if result2 is None:
+#         sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (e_name.get())
+#         cursor.execute(sql0)
+#         result = cursor.fetchone()
+#         if result:
+#             if result != '0':
+#                 time = datetime.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
+#                 sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), e_name.get(), time)
+#                 sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (e_name.get())
+#                 cursor.execute(sql)
+#                 cursor.execute(sql1)
+#                 msg.showinfo(title='Success！', message='The equipment is successfully borrowed!')
+#                 db.commit()
+#                 db.close()
+#                 win.destroy()
+#             else:
+#                 msg.showinfo(title='Error！', message='The equipment is out of stock!')
+#         else:
+#             msg.showinfo(title='Error！', message='The equipment was not found！')
+#     else:
+#         db.close()
+#         msg.showinfo(title='Error！', message='You have borrow！')
 
 
 def turnback():  # 还书
@@ -426,7 +513,8 @@ def turnback():  # 还书
     if result[0] == 0:
         msg.showinfo(title='Error', message='You have not borrowed an equipment yet！')
     else:
-        lable1 = tk.Label(win, text='The following equipment on the unreturned：', bg='pink', font=('Microsoft YaHei', 20)).place(
+        lable1 = tk.Label(win, text='The following equipment on the unreturned：', bg='pink',
+                          font=('Microsoft YaHei', 20)).place(
             x=80, y=20)
         tree = ttk.Treeview(win, columns=('1', '2'), show="headings")
         tree.column('1', width=150, anchor='center')
@@ -450,8 +538,9 @@ def turnback():  # 还书
         e_name = tk.Entry(win, font=('Microsoft YaHei', 12), width=10)
         e_name.place(x=180, y=480)
 
-        tk.Button(win, text='Confirm Turn back', font=('Microsoft YaHei', 12), width=10, command=confirm_turnback).place(x=395,
-                                                                                                            y=480)
+        tk.Button(win, text='Confirm Turn back', font=('Microsoft YaHei', 12), width=10,
+                  command=confirm_turnback).place(x=395,
+                                                  y=480)
     db.close()
 
 
@@ -467,23 +556,55 @@ def confirm_turnback():
 
     sql1 = "UPDATE equipment SET amount=amount+1 WHERE name='%s'" % (e_name.get())
     cursor.execute(sql1)
-    db.commit()
 
-    time1 = datetime.datetime.now()  # 获取现在的时间
+    # time1 = datetime.datetime.now()  # 获取现在的时间
     sql2 = "SELECT date FROM borrow WHERE name='%s'" % (e_name.get())
     cursor.execute(sql2)
-    result = cursor.fetchone()
-    day = (time1 - result[0]).days  # 得到时间差，检查图书是否超期
-    print(day)
-    if day > 30:
-        msg.showinfo(title='Successful return', message='You are overdue! Please return it on time next time!')
-    else:
-        msg.showinfo(title='Successful return', message='Return the book successfully, and not more than 30 days')
+    # result = cursor.fetchone()
+    # day = (time1 - result[0]).days  # 得到时间差，检查图书是否超期
+    # print(day)
+    # if day > 30:
+    #     msg.showinfo(title='Successful return', message='You are overdue! Please return it on time next time!')
+    # else:
+    #     msg.showinfo(title='Successful return', message='Return the book successfully, and not more than 30 days')
     sql0 = "DELETE FROM borrow WHERE name='%s' AND userid='%s'" % (e_name.get(), getid())
+    msg.showinfo(title='Successful return', message='Return the book successfully')
     cursor.execute(sql0)
+
     db.commit()
     db.close()
     win.destroy()
+
+
+# def confirm_turnback():
+#     db = pymysql.connect(host='127.0.0.1',
+#                          port=3306,
+#                          user='root',
+#                          passwd='cla051063',
+#                          db='abes',
+#                          charset='utf8'
+#                          )
+#     cursor = db.cursor()
+#
+#     sql1 = "UPDATE equipment SET amount=amount+1 WHERE name='%s'" % (e_name.get())
+#     cursor.execute(sql1)
+#     db.commit()
+#
+#     time1 = datetime.datetime.now()  # 获取现在的时间
+#     sql2 = "SELECT date FROM borrow WHERE name='%s'" % (e_name.get())
+#     cursor.execute(sql2)
+#     result = cursor.fetchone()
+#     day = (time1 - result[0]).days  # 得到时间差，检查图书是否超期
+#     print(day)
+#     if day > 30:
+#         msg.showinfo(title='Successful return', message='You are overdue! Please return it on time next time!')
+#     else:
+#         msg.showinfo(title='Successful return', message='Return the book successfully, and not more than 30 days')
+#     sql0 = "DELETE FROM borrow WHERE name='%s' AND userid='%s'" % (e_name.get(), getid())
+#     cursor.execute(sql0)
+#     db.commit()
+#     db.close()
+#     win.destroy()
 
 
 def qrcode_show():
@@ -492,7 +613,8 @@ def qrcode_show():
     win.title('QR code borrow')
     win.geometry('700x600')
     lable0 = tk.Label(win, text=get_text(), bg='pink', font=('Microsoft YaHei', 50)).pack()  # 上
-    tk.Button(win, text='Confirm Borrow', font=('Microsoft YaHei', 12), width=10, command=confirm_qrcode_borrow).place(x=300, y=195)
+    tk.Button(win, text='Confirm Borrow', font=('Microsoft YaHei', 12), width=10, command=confirm_qrcode_borrow).place(
+        x=300, y=195)
     win.mainloop()
 
 
