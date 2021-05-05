@@ -7,10 +7,10 @@ import pymysql
 def frame():
     global window
     window = tk.Tk()
-    window.title('Equipment查询')
+    window.title('Equipment search')
     window.geometry('1200x700')
 
-    tk.Label(window, text='Equipment type：', font=('宋体', 12)).place(x=200, y=30)
+    tk.Label(window, text='Equipment type：', font=('Microsoft YaHei', 12)).place(x=200, y=30)
 
     global list
     comvalue = tk.StringVar()
@@ -20,13 +20,13 @@ def frame():
     list.current(0)
 
     global e_name
-    tk.Label(window, text='Name：', font=('宋体', 12)).place(x=450, y=30)
-    e_name = tk.Entry(window, font=('宋体', 12), width=15)
+    tk.Label(window, text='Name：', font=('Microsoft YaHei', 12)).place(x=450, y=30)
+    e_name = tk.Entry(window, font=('Microsoft YaHei', 12), width=15)
     e_name.place(x=500, y=30)
 
-    tk.Button(window, text='搜索', font=('宋体', 12), width=10, command=search).place(x=900, y=25)
-    global tree  # 建立树形图
-    yscrollbar = ttk.Scrollbar(window, orient='vertical')  # 右边的滑动按钮
+    tk.Button(window, text='search', font=('Microsoft YaHei', 12), width=10, command=search).place(x=900, y=25)
+    global tree
+    yscrollbar = ttk.Scrollbar(window, orient='vertical')
     tree = ttk.Treeview(window, columns=('1', '2', '3'), show="headings", yscrollcommand=yscrollbar.set)
     tree.column('1', width=150, anchor='center')
     tree.column('2', width=150, anchor='center')
@@ -40,7 +40,6 @@ def frame():
 
 
 def search():
-    # 我用了最原始的方法来动态查询
     if list.get() == 'All' and e_name.get() == '':
         sql = "SELECT * FROM equipment "
     elif list.get() == 'All' and e_name.get() == '':
@@ -55,8 +54,6 @@ def search():
         sql = "SELECT * FROM equipment WHERE type='%s' AND name='%s'" % (
         list.get(), e_name.get())
 
-    # db = pymysql.connect("localhost", "root", "qwer", "library")
-
     db = pymysql.connect(host='127.0.0.1',
                          port=3306,
                          user='root',
@@ -69,9 +66,9 @@ def search():
     results = cursor.fetchall()
     if results:
         l = len(results)
-        for i in range(0, l):  # 查询到的结果依次插入到表格中
+        for i in range(0, l):
             tree.insert('', i, values=(results[i]))
     else:
-        tree.insert('', 0, values=('查询不到结果', '查询不到结果', '查询不到结果'))
+        tree.insert('', 0, values=('No results', 'No results', 'No results'))
 
     db.close()

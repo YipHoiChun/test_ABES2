@@ -32,14 +32,14 @@ def frame():
 
     window.configure(background=bg1)
 
-    window.geometry('900x700')
+    window.geometry('900x600')
 
     # Add image file
-    bg = tk.PhotoImage(file="bg.png")
+    bg = tk.PhotoImage(file="device-900_600.png")
 
     # Create Canvas
     canvas1 = tk.Canvas(window, width=900,
-                        height=700)
+                        height=600)
 
     canvas1.pack(fill="both", expand=True)
 
@@ -51,10 +51,10 @@ def frame():
     y_cord = 20
     checker = 0
 
-    message = tk.Label(window, text=" Automatic Borrow Equipment System", bg="white", fg="black", width=40, height=1,
-                       font=('Times New Roman', 35, 'bold underline'))
-    message.place(x=200, y=20)
-    message.pack()
+    # message = tk.Label(window, text=" Automatic Borrow Equipment System", bg="white", fg="black", width=40, height=1,
+    #                    font=('Times New Roman', 35, 'bold underline'))
+    # message.place(x=200, y=20)
+    # message.pack()
 
     lbl = tk.Label(window, text="Enter Your Student ID", width=20, height=2, fg="black", bg=bg1,
                    font=('Times New Roman', 25, 'bold'))
@@ -87,7 +87,7 @@ def frame():
     trackImg.place(x=400 - x_cord, y=425 - y_cord)
     quitWindow = tk.Button(window, text="QUIT", command=quit_window, fg="black", width=10,
                            activebackground="pink", font=('Times New Roman', 15, ' bold '))
-    quitWindow.place(x=400, y=600 - y_cord)
+    quitWindow.place(x=400, y=550 - y_cord)
 
     window.mainloop()
 
@@ -127,7 +127,7 @@ def TakeImages():
     if not Id:
         res = "Please enter Id"
         # message.configure(text=res)
-        msg._show(title='错误！', message=res)
+        msg._show(title='error！', message=res)
         MsgBox = tk.messagebox.askquestion("Warning", "Please enter roll number properly , press yes if you understood",
                                            icon='warning')
         if MsgBox == 'no':
@@ -135,7 +135,7 @@ def TakeImages():
     elif not name:
         res = "Please enter Name"
         # message.configure(text=res)
-        msg._show(title='错误！', message=res)
+        msg._show(title='error！', message=res)
         MsgBox = tk.messagebox.askquestion("Warning", "Please enter your name properly , press yes if you understood",
                                            icon='warning')
         if MsgBox == 'no':
@@ -286,8 +286,8 @@ def Cheack_Login():
     global id1
     id1 = getid()
     sql = "SELECT id FROM user WHERE id='%s'" % (id1)
-    cursor.execute(sql)  # sql语句被执行
-    result = cursor.fetchone()  # 得到的结果返回给result数组
+    cursor.execute(sql)
+    result = cursor.fetchone()
     log = getlog()
     log1 = "login"
     if log1 == log:
@@ -298,32 +298,17 @@ def Cheack_Login():
             Cheack_Log(text1)
             Borrow_frame()
         else:
-            msg._show(title='错误！', message='您输入的用户不存在！请先注册！')
+            msg._show(title='error！', message='The user you entered does not exist! Please register first!')
     else:
-        msg._show(title='错误！', message='請重新掃描人面！')
-    # if result and log1 == log:
-    #     db.close()
-    #     print(id1)
-    #     text1 = 'login'
-    #     Cheack_Log(text1)
-    #     Borrow_frame()
-    # else:
-    #     msg._show(title='错误！', message='您输入的用户不存在！请先注册！')
+        msg._show(title='error！', message='Please rescan the human face!')
 
 
 def getid():
     return StId
 
 
-# def Borrow_frame():
-#     window2 = tk.Tk()
-#     window2.title('Borrow')
-#     window2.geometry('700x600')
-#     lable0 = tk.Label(window2, text=getid(), bg='pink', font=('微软雅黑', 50)).pack()  # 上
-#     window2.mainloop()
 
-
-def quit_window():  # 退出管理员界面，跳转至初始界面
+def quit_window():
     window.destroy()
     initial.frame()
 
@@ -333,7 +318,8 @@ def Borrow_frame():
     window2 = tk.Tk()
     window2.title('Borrow')
     window2.geometry('700x600')
-    lable0 = tk.Label(window2, text=getid(), font=('Microsoft YaHei', 50)).pack()  # 上
+    lable = tk.Label(window2, text="Student ID:", font=('Microsoft YaHei', 50)).place(x=20, y=10)
+    lable0 = tk.Label(window2, text=getid(), font=('Microsoft YaHei', 50)).place(x=280,y=10)  # 上
 
     lable1 = tk.Label(window2, text='Please select:', font=('Microsoft YaHei', 20)).place(x=80, y=400)  # 下
     tk.Button(window2, text='Borrow', font=('Microsoft YaHei', 15), width=10, height=2, command=borrow).place(x=350,
@@ -557,18 +543,18 @@ def confirm_turnback():
     sql1 = "UPDATE equipment SET amount=amount+1 WHERE name='%s'" % (e_name.get())
     cursor.execute(sql1)
 
-    # time1 = datetime.datetime.now()  # 获取现在的时间
+    # time1 = datetime.datetime.now()
     sql2 = "SELECT date FROM borrow WHERE name='%s'" % (e_name.get())
     cursor.execute(sql2)
     # result = cursor.fetchone()
-    # day = (time1 - result[0]).days  # 得到时间差，检查图书是否超期
+    # day = (time1 - result[0]).days
     # print(day)
     # if day > 30:
     #     msg.showinfo(title='Successful return', message='You are overdue! Please return it on time next time!')
     # else:
     #     msg.showinfo(title='Successful return', message='Return the book successfully, and not more than 30 days')
     sql0 = "DELETE FROM borrow WHERE name='%s' AND userid='%s'" % (e_name.get(), getid())
-    msg.showinfo(title='Successful return', message='Return the book successfully')
+    msg.showinfo(title='Successful return', message='Return the equipment successfully')
     cursor.execute(sql0)
 
     db.commit()
@@ -612,9 +598,11 @@ def qrcode_show():
     win = tk.Tk()
     win.title('QR code borrow')
     win.geometry('700x600')
-    lable0 = tk.Label(win, text=get_text(), bg='pink', font=('Microsoft YaHei', 50)).pack()  # 上
-    tk.Button(win, text='Confirm Borrow', font=('Microsoft YaHei', 12), width=10, command=confirm_qrcode_borrow).place(
-        x=300, y=195)
+    text = get_text()
+    text2 = "Name: " + text
+    lable0 = tk.Label(win, text=text2, bg='pink', font=('Microsoft YaHei', 50)).pack()
+    tk.Button(win, text='Confirm Turn back', font=('Microsoft YaHei', 12), width=10,
+              command=confirm_qrcode_borrow).place(x=300, y=195)
     win.mainloop()
 
 
@@ -627,25 +615,87 @@ def confirm_qrcode_borrow():
                          charset='utf8'
                          )
     cursor = db.cursor()
-    # test qrcode
-    sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (get_text())
-    cursor.execute(sql0)
-    result = cursor.fetchone()
-    if result:
-        if result != '0':
-            time = datetime.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
-            sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), get_text(), time)
-            sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (get_text())
-            cursor.execute(sql)
-            cursor.execute(sql1)
-            msg.showinfo(title='Success！', message='Borrowed book successfully!')
-            db.commit()
-            db.close()
-            win.destroy()
+    # # test qrcode
+    # sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (get_text())
+    # cursor.execute(sql0)
+    # result = cursor.fetchone()
+    # if result:
+    #     if result != '0':
+    #         time = datetime.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
+    #         sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), get_text(), time)
+    #         sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (get_text())
+    #         cursor.execute(sql)
+    #         cursor.execute(sql1)
+    #         msg.showinfo(title='Success！', message='Borrowed book successfully!')
+    #         db.commit()
+    #         db.close()
+    #         win.destroy()
+    #     else:
+    #         msg.showinfo(title='Error！', message='Your borrowed equipment is out of stock！')
+    # else:
+    #     msg.showinfo(title='Error！', message='The equipment was not found！')
+    sql3 = "SELECT COUNT(*) FROM book WHERE userid='%s' AND name='%s'" % (getid(), get_text())
+    cursor.execute(sql3)
+    result3 = cursor.fetchone()
+    print(result3)
+    if result3 == 0:
+        sql = "SELECT name FROM borrow WHERE userid='%s' AND name='%s'" % (getid(), get_text())
+        cursor.execute(sql)
+        result2 = cursor.fetchone()
+        if result2 is None:
+            sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (get_text())
+            cursor.execute(sql0)
+            result = cursor.fetchone()
+            if result:
+                if result != '0':
+                    time = datetime.datetime.now().strftime('%F')
+                    sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), get_text(), time)
+                    sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (get_text())
+                    cursor.execute(sql)
+                    cursor.execute(sql1)
+                    msg.showinfo(title='Success！', message='The equipment is successfully borrowed!')
+                    db.commit()
+                    db.close()
+                    win.destroy()
+                else:
+                    msg.showinfo(title='Error！', message='The equipment is out of stock!')
+            else:
+                msg.showinfo(title='Error！', message='The equipment was not found！')
         else:
-            msg.showinfo(title='Error！', message='Your borrowed equipment is out of stock！')
+            db.close()
+            msg.showinfo(title='Error！', message='You have borrow！')
+
     else:
-        msg.showinfo(title='Error！', message='The equipment was not found！')
+        sql4 = "UPDATE equipment SET amount=amount+1 WHERE name='%s'" % (get_text())
+        cursor.execute(sql4)
+        sql5 = "DELETE FROM book WHERE name='%s' AND userid='%s'" % (get_text(), getid())
+        cursor.execute(sql5)
+
+        sql6 = "SELECT name FROM borrow WHERE userid='%s' AND name='%s'" % (getid(), get_text())
+        cursor.execute(sql6)
+        result2 = cursor.fetchone()
+        if result2 is None:
+            sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (get_text())
+            cursor.execute(sql0)
+            result = cursor.fetchone()
+            if result:
+                if result != '0':
+                    time = datetime.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
+                    sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), get_text(), time)
+                    sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (get_text())
+                    cursor.execute(sql)
+                    cursor.execute(sql1)
+                    msg.showinfo(title='Success！', message='The equipment is successfully borrowed!')
+                    db.commit()
+                    db.close()
+                    win.destroy()
+                else:
+                    msg.showinfo(title='Error！', message='The equipment is out of stock!')
+            else:
+                msg.showinfo(title='Error！', message='The equipment was not found！')
+        else:
+            db.close()
+            msg.showinfo(title='Error！', message='You have borrow！')
 
 
 def scan():
