@@ -15,10 +15,10 @@ def frame():
     window2.title('Borrower')
     window2.configure(background='#7DC0F8')
     window2.geometry('700x600')
-    lable = tk.Label(window2, text="Student ID:", font=('Microsoft YaHei', 50)).place(x=20, y=10)
+    lable = tk.Label(window2, text="Student ID:  ", font=('Microsoft YaHei', 50)).place(x=20, y=10)
     lable0 = tk.Label(window2, text=ID.getid(), font=('Microsoft YaHei', 50)).place(x=280, y=10)
-    lable1 = tk.Label(window2, text='Please select the operation:', font=('Microsoft YaHei', 20)).place(x=80,
-                                                                                                        y=400)  # 下
+    lable1 = tk.Label(window2, text='Please select::', font=('Microsoft YaHei', 20)).place(x=80,
+                                                                                                        y=200)  # 下
     tk.Button(window2, text='Borrow', font=('Microsoft YaHei', 15), width=10, height=2, command=borrow).place(x=350,
                                                                                                               y=250)
     tk.Button(window2, text='Return', font=('Microsoft YaHei', 15), width=10, height=2, command=turnback).place(x=350,

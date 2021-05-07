@@ -19,7 +19,7 @@ import sys
 
 
 def frame():
-    bg1 = '#84C1FF'
+    bg1 = '#FFC284'
 
     global window
 
@@ -28,7 +28,7 @@ def frame():
 
     window = tk.Tk()
 
-    window.title("Automatic Borrow Equipment System")
+    window.title("Face register or login")
 
     window.configure(background=bg1)
 
@@ -50,44 +50,52 @@ def frame():
     x_cord = 75
     y_cord = 20
     checker = 0
+    bg2 = '#848DFF'
+    lbl0 = tk.Label(window, text="Registered face login", width=20, fg="white", bg=bg2,
+                    font=('Times New Roman', 25, 'bold'))
+    lbl0.place(x=100 - x_cord, y=150 - y_cord)
 
-    # message = tk.Label(window, text=" Automatic Borrow Equipment System", bg="white", fg="black", width=40, height=1,
-    #                    font=('Times New Roman', 35, 'bold underline'))
-    # message.place(x=200, y=20)
-    # message.pack()
+    l1 = tk.Label(window, text="Face login", width=25, fg="white", bg=bg2,
+                  font=('Times New Roman', 25, 'bold'))
+    l1.place(x=400 - x_cord, y=150 - y_cord)
 
-    lbl = tk.Label(window, text="Enter Your Student ID", width=20, height=2, fg="black", bg=bg1,
+    l2 = tk.Label(window, text="Click q to close the camera", width=25, fg="black", bg=bg1,
+                  font=('Times New Roman', 25, 'bold'))
+    l2.place(x=400 - x_cord, y=190 - y_cord)
+
+    lbl = tk.Label(window, text="Enter Your Student ID", width=20, height=2, fg="black",bg=bg1,
                    font=('Times New Roman', 25, 'bold'))
-    lbl.place(x=100 - x_cord, y=100 - y_cord)
+    lbl.place(x=100 - x_cord, y=200 - y_cord)
 
     global txt, txt2
 
     txt = tk.Entry(window, width=32, bg="white", fg="blue", font=('Times New Roman', 15, ' bold '))
-    txt.place(x=100 - x_cord, y=150 - y_cord)
+    txt.place(x=100 - x_cord, y=250 - y_cord)
 
-    lbl2 = tk.Label(window, text="Enter Your Name", width=20, fg="black", bg=bg1, height=2,
+    lbl2 = tk.Label(window, text="Enter Your Name", width=20, fg="black",bg=bg1, height=2,
                     font=('Times New Roman', 25, ' bold '))
-    lbl2.place(x=100 - x_cord, y=200 - y_cord)
+    lbl2.place(x=100 - x_cord, y=300 - y_cord)
 
     txt2 = tk.Entry(window, width=32, bg="white", fg="blue", font=('Times New Roman', 15, ' bold '))
-    txt2.place(x=100 - x_cord, y=250 - y_cord)
+    txt2.place(x=100 - x_cord, y=350 - y_cord)
 
     takeImg = tk.Button(window, text="Image Capture Button", command=TakeImages, fg="black", bg="blue", width=30,
                         activebackground="pink", font=('Times New Roman', 15, ' bold '))
-    takeImg.place(x=100 - x_cord, y=300 - y_cord)
+    takeImg.place(x=100 - x_cord, y=400 - y_cord)
     trainImg = tk.Button(window, text="Model Training Button", command=TrainImages, fg="black", bg="blue", width=30,
                          activebackground="pink", font=('Times New Roman', 15, ' bold '))
-    trainImg.place(x=100 - x_cord, y=350 - y_cord)
-    borrow = tk.Button(window, text="Borrow", command=Cheack_Login, fg="black", bg="blue", width=30,
-                       activebackground="pink", font=('Times New Roman', 15, ' bold '))
-    borrow.place(x=400 - x_cord, y=500 - y_cord)
+    trainImg.place(x=100 - x_cord, y=450 - y_cord)
 
-    trackImg = tk.Button(window, text="Test Face Button", command=TrackImages, fg="black", width=30,
-                         activebackground="pink", font=('Times New Roman', 15, ' bold '))
-    trackImg.place(x=400 - x_cord, y=425 - y_cord)
-    quitWindow = tk.Button(window, text="QUIT", command=quit_window, fg="black", width=10,
-                           activebackground="pink", font=('Times New Roman', 15, ' bold '))
-    quitWindow.place(x=400, y=550 - y_cord)
+    borrow = tk.Button(window, text="Login", command=Cheack_Login, fg="black", bg="blue", width=23,
+                       activebackground="pink", font=('Times New Roman', 25, ' bold '))
+    borrow.place(x=400 - x_cord, y=300 - y_cord)
+
+    trackImg = tk.Button(window, text="Face Recognition", command=TrackImages, fg="black", width=23,
+                         activebackground="pink", font=('Times New Roman', 25, ' bold '))
+    trackImg.place(x=400 - x_cord, y=235 - y_cord)
+    quitWindow = tk.Button(window, text="Quit", command=quit_window, fg="black", width=10,
+                           activebackground="pink", font=('Times New Roman', 25, ' bold '))
+    quitWindow.place(x=400, y=500 - y_cord)
 
     window.mainloop()
 
@@ -192,7 +200,7 @@ def TrainImages():
     clear1()
     clear2()
     # message.configure(text=res)
-    msg.showinfo(title='成功！', message=res)
+    msg.showinfo(title='success！', message=res)
     tk.messagebox.showinfo('Completed', 'Your model has been trained successfully!!')
 
 
@@ -251,7 +259,7 @@ def TrackImages():
             cv2.putText(im, str(tt), (x, y + h), font, 1, (255, 255, 255), 2)
         # attendance = attendance.drop_duplicates(subset=['Id'], keep='first')
         cv2.imshow('im', im)
-        if (cv2.waitKey(1) == ord('1')):
+        if (cv2.waitKey(1) == ord('q')):
             break
     # global StId
     StId = Id
@@ -307,7 +315,6 @@ def getid():
     return StId
 
 
-
 def quit_window():
     window.destroy()
     initial.frame()
@@ -318,10 +325,11 @@ def Borrow_frame():
     window2 = tk.Tk()
     window2.title('Borrow')
     window2.geometry('700x600')
-    lable = tk.Label(window2, text="Student ID:", font=('Microsoft YaHei', 50)).place(x=20, y=10)
-    lable0 = tk.Label(window2, text=getid(), font=('Microsoft YaHei', 50)).place(x=280,y=10)  # 上
+    window2.configure(background='#7DC0F8')
+    lable = tk.Label(window2, text="Student ID:  ", font=('Microsoft YaHei', 50)).place(x=20, y=10)
+    lable0 = tk.Label(window2, text=getid(), font=('Microsoft YaHei', 50)).place(x=280, y=10)  # 上
 
-    lable1 = tk.Label(window2, text='Please select:', font=('Microsoft YaHei', 20)).place(x=80, y=400)  # 下
+    lable1 = tk.Label(window2, text='Please select:', font=('Microsoft YaHei', 20)).place(x=80, y=200)  # 下
     tk.Button(window2, text='Borrow', font=('Microsoft YaHei', 15), width=10, height=2, command=borrow).place(x=350,
                                                                                                               y=250)
     tk.Button(window2, text='Return', font=('Microsoft YaHei', 15), width=10, height=2, command=turnback).place(x=350,

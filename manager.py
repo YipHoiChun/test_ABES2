@@ -19,13 +19,18 @@ def frame():  # Manager frame
     # Display image
     canvas1.create_image(0, 0, image=bg,
                          anchor="nw")
-    lable0 = tk.Label(root, text='Manager Login', font=('Microsoft YaHei', 50)).place(x=300, y=100)
+    bg1 = '#FFC284'
+    lable0 = tk.Label(root, fg="black", bg=bg1, text='Manager Login', font=('Microsoft YaHei', 50)).place(x=300, y=100)
 
-    lable1 = tk.Label(root, text='Please select:', font=('Microsoft YaHei', 20)).place(x=80, y=400)
+    lable1 = tk.Label(root, fg="black", bg=bg1, text='Please select:', font=('Microsoft YaHei', 30)).place(x=80, y=200)
 
-    tk.Button(root, text='Login', font=('Microsoft YaHei', 15), width=10, height=2, command=login).place(x=150, y=500)
-    tk.Button(root, text='Register', font=('Microsoft YaHei', 15), width=10, height=2, command=register).place(x=350, y=500)
-    tk.Button(root, text='Quit', font=('Microsoft YaHei', 15), width=10, height=2, command=exit_manager).place(x=550, y=500)
+    tk.Button(root, text='Login', font=('Microsoft YaHei', 20), width=10, height=2, command=login).place(x=150,
+                                                                                                                 y=300)
+    tk.Button(root, text='Register', font=('Microsoft YaHei', 20), width=10, height=2, command=register).place(
+        x=350, y=300)
+    tk.Button(root, text='Quit', font=('Microsoft YaHei', 20), width=10, height=2, command=exit_manager).place(
+        x=550,
+        y=300)
     root.mainloop()
 
 
