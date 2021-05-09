@@ -8,7 +8,7 @@ import pymysql
 def frame():
     global window
     window = tk.Tk()
-    window.title('借物查询')
+    window.title('Borrow query')
     window.geometry('1200x700')
 
 
@@ -22,13 +22,13 @@ def frame():
 
 
     global e_name
-    tk.Label(window, text='Equipment:', font=('宋体', 12)).place(x=450, y=30)
-    e_name = tk.Entry(window, font=('宋体', 12), width=15)
+    tk.Label(window, text='Equipment:', font=('Microsoft YaHei', 12)).place(x=450, y=30)
+    e_name = tk.Entry(window, font=('Microsoft YaHei', 12), width=15)
     e_name.place(x=600, y=30)
-    tk.Button(window, text='搜索', font=('宋体', 12), width=10, command=search).place(x=900, y=25)
+    tk.Button(window, text='Search', font=('Microsoft YaHei', 12), width=10, command=search).place(x=900, y=25)
 
-    global tree  # 建立树形图
-    yscrollbar = ttk.Scrollbar(window, orient='vertical')  # 右边的滑动按钮
+    global tree
+    yscrollbar = ttk.Scrollbar(window, orient='vertical')
     tree = ttk.Treeview(window, columns=('1', '2', '3'), show="headings", yscrollcommand=yscrollbar.set)
     tree.column('1', width=150, anchor='center')
     tree.column('2', width=150, anchor='center')
@@ -41,7 +41,6 @@ def frame():
     window.mainloop()
 
 def search():
-    # 我用了最原始的方法来动态查询
     if list.get() == 'All' and e_name.get() == '':
         sql = "SELECT * FROM borrow "
     elif list.get() == 'All' and e_name.get() == '':
@@ -68,7 +67,7 @@ def search():
     results = cursor.fetchall()
     if results:
         l = len(results)
-        for i in range(0, l):  # 查询到的结果依次插入到表格中
+        for i in range(0, l):
             tree.insert('', i, values=(results[i]))
     else:
         tree.insert('', 0, values=('No results found', 'No results found', 'No results found'))

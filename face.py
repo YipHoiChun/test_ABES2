@@ -59,7 +59,7 @@ def frame():
                   font=('Times New Roman', 25, 'bold'))
     l1.place(x=400 - x_cord, y=150 - y_cord)
 
-    l2 = tk.Label(window, text="Click q to close the camera", width=25, fg="black", bg=bg1,
+    l2 = tk.Label(window, text="Click 1 to close the camera", width=25, fg="black", bg=bg1,
                   font=('Times New Roman', 25, 'bold'))
     l2.place(x=400 - x_cord, y=190 - y_cord)
 
@@ -259,7 +259,7 @@ def TrackImages():
             cv2.putText(im, str(tt), (x, y + h), font, 1, (255, 255, 255), 2)
         # attendance = attendance.drop_duplicates(subset=['Id'], keep='first')
         cv2.imshow('im', im)
-        if (cv2.waitKey(1) == ord('q')):
+        if (cv2.waitKey(1) == ord('1')):
             break
     # global StId
     StId = Id
@@ -339,7 +339,7 @@ def Borrow_frame():
 
     tk.Button(window2, text='QR code', font=('Microsoft YaHei', 15), width=10, height=2, command=scan).place(x=350,
                                                                                                              y=550)
-    tk.Button(window2, text='QR(Load)', font=('Microsoft YaHei', 15), width=10, height=2, command=qrcode_show).place(
+    tk.Button(window2, text='QR(Borrow)', font=('Microsoft YaHei', 15), width=10, height=2, command=qrcode_show).place(
         x=500, y=550)
 
     tk.Button(window2, text='Logout', font=('Microsoft YaHei', 15), width=10, height=2, command=out).place(x=200, y=550)
@@ -713,7 +713,7 @@ def scan():
         ret, frame = cap.read()
         cv2.imshow('scan qrcode', frame)
         # global text1
-        # 解析二维码
+        # Analyze the QR code
         text1 = None
         try:
             text1 = scan_qrcode(frame)

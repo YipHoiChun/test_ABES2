@@ -19,7 +19,7 @@ def frame():
     lable = tk.Label(win, text="Manager ID:", font=('Microsoft YaHei', 50)).place(x=20, y=10)
     lable0 = tk.Label(win, text=ID.getid(), font=('Microsoft YaHei', 50)).place(x=280, y=10)
 
-    lable1 = tk.Label(win, text='Please select:', font=('Microsoft YaHei', 20)).place(x=80, y=400)
+    lable1 = tk.Label(win, text='Please select:', font=('Microsoft YaHei', 20)).place(x=80, y=200)
 
     tk.Button(win, text='Add equipment', font=('Microsoft YaHei', 15), width=10, height=2, command=purchase).place(
         x=350, y=250)
