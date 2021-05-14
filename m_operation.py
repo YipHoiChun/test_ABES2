@@ -63,7 +63,7 @@ def purchase():
     tk.Button(win2, text='Confirm Add', font=('Microsoft YaHei', 12), width=10, command=add).place(x=700, y=195)
 
 
-def add():  # 添加图书信息到数据库中
+def add():
     sql = "INSERT INTO equipment VALUES('%s','%s','%s','%s')" % (
         list.get(), e_name.get(), amount.get(), 'images.jpeg')
 
@@ -81,7 +81,7 @@ def add():  # 添加图书信息到数据库中
     msg.showinfo(title='Success！', message='Equipment add to database！')
 
 
-def cancel():  # 撤销图书
+def cancel():
     global win3
     win3 = tk.Tk()
     win3.title('Manager')
