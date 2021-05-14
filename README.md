@@ -1,2 +1,3 @@
 # test_ABES2
-test
+#install
+python -m pip install -r requirements.txt
