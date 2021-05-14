@@ -63,7 +63,7 @@ def frame():
                   font=('Times New Roman', 25, 'bold'))
     l2.place(x=400 - x_cord, y=190 - y_cord)
 
-    lbl = tk.Label(window, text="Enter Your Student ID", width=20, height=2, fg="black", bg=bg1,
+    lbl = tk.Label(window, text="(1) Enter Student ID", width=20, height=2, fg="black", bg=bg1,
                    font=('Times New Roman', 25, 'bold'))
     lbl.place(x=100 - x_cord, y=200 - y_cord)
 
@@ -72,25 +72,25 @@ def frame():
     txt = tk.Entry(window, width=32, bg="white", fg="blue", font=('Times New Roman', 15, ' bold '))
     txt.place(x=100 - x_cord, y=250 - y_cord)
 
-    lbl2 = tk.Label(window, text="Enter Your Name", width=20, fg="black", bg=bg1, height=2,
+    lbl2 = tk.Label(window, text="(2) Enter Name", width=20, fg="black", bg=bg1, height=2,
                     font=('Times New Roman', 25, ' bold '))
     lbl2.place(x=100 - x_cord, y=300 - y_cord)
 
     txt2 = tk.Entry(window, width=32, bg="white", fg="blue", font=('Times New Roman', 15, ' bold '))
     txt2.place(x=100 - x_cord, y=350 - y_cord)
 
-    takeImg = tk.Button(window, text="Image Capture Button", command=TakeImages, fg="black", bg="blue", width=30,
+    takeImg = tk.Button(window, text="(3) Image Capture Button", command=TakeImages, fg="black", bg="blue", width=30,
                         activebackground="pink", font=('Times New Roman', 15, ' bold '))
     takeImg.place(x=100 - x_cord, y=400 - y_cord)
-    trainImg = tk.Button(window, text="Model Training Button", command=TrainImages, fg="black", bg="blue", width=30,
+    trainImg = tk.Button(window, text="(4) Model Training Button", command=TrainImages, fg="black", bg="blue", width=30,
                          activebackground="pink", font=('Times New Roman', 15, ' bold '))
     trainImg.place(x=100 - x_cord, y=450 - y_cord)
 
-    borrow = tk.Button(window, text="Login", command=Cheack_Login, fg="black", bg="blue", width=23,
+    borrow = tk.Button(window, text="(2) Login", command=Cheack_Login, fg="black", bg="blue", width=23,
                        activebackground="pink", font=('Times New Roman', 25, ' bold '))
     borrow.place(x=400 - x_cord, y=300 - y_cord)
 
-    trackImg = tk.Button(window, text="Face Recognition", command=TrackImages, fg="black", width=23,
+    trackImg = tk.Button(window, text="(1) Face Recognition", command=TrackImages, fg="black", width=23,
                          activebackground="pink", font=('Times New Roman', 25, ' bold '))
     trackImg.place(x=400 - x_cord, y=235 - y_cord)
     quitWindow = tk.Button(window, text="Quit", command=quit_window, fg="black", width=10,
@@ -327,9 +327,12 @@ def Borrow_frame():
     window2.geometry('700x600')
     window2.configure(background='#7DC0F8')
     lable = tk.Label(window2, text="Student ID:  ", font=('Microsoft YaHei', 50)).place(x=20, y=10)
-    lable0 = tk.Label(window2, text=getid(), font=('Microsoft YaHei', 50)).place(x=280, y=10)  # 上
+    lable0 = tk.Label(window2, text=getid(), font=('Microsoft YaHei', 50)).place(x=280, y=10)
 
-    lable1 = tk.Label(window2, text='Please select:', font=('Microsoft YaHei', 20)).place(x=80, y=200)  # 下
+    lable1 = tk.Label(window2, text='Please select:', font=('Microsoft YaHei', 20)).place(x=80, y=200)
+    lable2 = tk.Label(window2, text='General input borrow', font=('Microsoft YaHei', 20)).place(x=80, y=250)
+    lable3 = tk.Label(window2, text='QR code borrow', font=('Microsoft YaHei', 20)).place(x=80, y=550)
+
     tk.Button(window2, text='Borrow', font=('Microsoft YaHei', 15), width=10, height=2, command=borrow).place(x=350,
                                                                                                               y=250)
     tk.Button(window2, text='Return', font=('Microsoft YaHei', 15), width=10, height=2, command=turnback).place(x=350,
@@ -337,12 +340,12 @@ def Borrow_frame():
     tk.Button(window2, text='Search', font=('Microsoft YaHei', 15), width=10, height=2, command=search.frame).place(
         x=350, y=450)
 
-    tk.Button(window2, text='QR code', font=('Microsoft YaHei', 15), width=10, height=2, command=scan).place(x=350,
+    tk.Button(window2, text='(1)QR code', font=('Microsoft YaHei', 15), width=10, height=2, command=scan).place(x=350,
                                                                                                              y=550)
-    tk.Button(window2, text='QR(Borrow)', font=('Microsoft YaHei', 15), width=10, height=2, command=qrcode_show).place(
+    tk.Button(window2, text='(2)Borrow', font=('Microsoft YaHei', 15), width=10, height=2, command=qrcode_show).place(
         x=500, y=550)
 
-    tk.Button(window2, text='Logout', font=('Microsoft YaHei', 15), width=10, height=2, command=out).place(x=200, y=550)
+    tk.Button(window2, text='Logout', font=('Microsoft YaHei', 15), width=10, height=2, command=out).place(x=550, y=20)
 
     window2.mainloop()
 
@@ -386,16 +389,17 @@ def confirm_borrow():
                          charset='utf8'
                          )
     cursor = db.cursor()
-    sql3 = "SELECT COUNT(*) FROM book WHERE userid='%s' AND name='%s'" % (getid(), e_name.get())
+    sql3 = "SELECT name FROM book WHERE userid='%s' AND name='%s'" % (getid(), e_name.get())
     cursor.execute(sql3)
     result3 = cursor.fetchone()
     print(result3)
     if result3 is None:
-        sql = "SELECT name FROM borrow WHERE name='%s'" % (e_name.get())
+        print('not book')
+        sql = "SELECT name FROM borrow WHERE userid='%s' AND name='%s'" % (getid(), e_name.get())
         cursor.execute(sql)
         result2 = cursor.fetchone()
         if result2 is None:
-            sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (e_name.get())
+            sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (get_text())
             cursor.execute(sql0)
             result = cursor.fetchone()
             if result:
@@ -418,14 +422,14 @@ def confirm_borrow():
             msg.showinfo(title='Error！', message='You have borrow！')
 
     else:
-        # db.close()
+        print('have book')
         sql4 = "UPDATE equipment SET amount=amount+1 WHERE name='%s'" % (e_name.get())
         cursor.execute(sql4)
         sql5 = "DELETE FROM book WHERE name='%s' AND userid='%s'" % (e_name.get(), getid())
         cursor.execute(sql5)
-        # print("delete book")
-        sql = "SELECT name FROM borrow WHERE name='%s'" % (e_name.get())
-        cursor.execute(sql)
+
+        sql6 = "SELECT name FROM borrow WHERE userid='%s' AND name='%s'" % (getid(), e_name.get())
+        cursor.execute(sql6)
         result2 = cursor.fetchone()
         if result2 is None:
             sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (e_name.get())
@@ -554,11 +558,12 @@ def confirm_qrcode_borrow():
     cursor.execute(sql3)
     result3 = cursor.fetchone()
     print(result3)
-    if result3 == 0:
+    if result3 is None:
         sql = "SELECT name FROM borrow WHERE userid='%s' AND name='%s'" % (getid(), get_text())
         cursor.execute(sql)
         result2 = cursor.fetchone()
         if result2 is None:
+            print('not book')
             sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (get_text())
             cursor.execute(sql0)
             result = cursor.fetchone()
@@ -582,6 +587,7 @@ def confirm_qrcode_borrow():
             msg.showinfo(title='Error！', message='You have borrow！')
 
     else:
+        print('have book')
         sql4 = "UPDATE equipment SET amount=amount+1 WHERE name='%s'" % (get_text())
         cursor.execute(sql4)
         sql5 = "DELETE FROM book WHERE name='%s' AND userid='%s'" % (get_text(), getid())
@@ -596,7 +602,7 @@ def confirm_qrcode_borrow():
             result = cursor.fetchone()
             if result:
                 if result != '0':
-                    time = datetime.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
+                    time = datetime.datetime.now().strftime('%F')
                     sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), get_text(), time)
                     sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (get_text())
                     cursor.execute(sql)

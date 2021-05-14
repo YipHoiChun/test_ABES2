@@ -64,7 +64,7 @@ def purchase():
 
 def add():
     sql = "INSERT INTO equipment VALUES('%s','%s','%s','%s')" % (
-        list.get(), e_name.get(), amount.get(), 'images.jpeg')
+        list.get(), e_name.get(), amount.get(), 'imageDF.jpg')
 
     db = pymysql.connect(host='127.0.0.1',
                          port=3306,

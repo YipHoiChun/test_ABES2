@@ -17,7 +17,10 @@ def frame():
     window2.geometry('700x600')
     lable = tk.Label(window2, text="Student ID:  ", font=('Microsoft YaHei', 50)).place(x=20, y=10)
     lable0 = tk.Label(window2, text=ID.getid(), font=('Microsoft YaHei', 50)).place(x=280, y=10)
-    lable1 = tk.Label(window2, text='Please select::', font=('Microsoft YaHei', 20)).place(x=80, y=200)
+    lable1 = tk.Label(window2, text='Please select:', font=('Microsoft YaHei', 20)).place(x=80, y=200)
+    lable2 = tk.Label(window2, text='General input borrow', font=('Microsoft YaHei', 20)).place(x=80, y=250)
+    lable3 = tk.Label(window2, text='QR code borrow', font=('Microsoft YaHei', 20)).place(x=80, y=550)
+
     tk.Button(window2, text='Borrow', font=('Microsoft YaHei', 15), width=10, height=2, command=borrow).place(x=350,
                                                                                                               y=250)
     tk.Button(window2, text='Return', font=('Microsoft YaHei', 15), width=10, height=2, command=turnback).place(x=350,
@@ -25,9 +28,9 @@ def frame():
     tk.Button(window2, text='Search', font=('Microsoft YaHei', 15), width=10, height=2, command=search.frame).place(
         x=350, y=450)
 
-    tk.Button(window2, text='QR code', font=('Microsoft YaHei', 15), width=10, height=2, command=scan).place(x=350,
+    tk.Button(window2, text='(1)QR code', font=('Microsoft YaHei', 15), width=10, height=2, command=scan).place(x=350,
                                                                                                              y=550)
-    tk.Button(window2, text='QR(Load)', font=('Microsoft YaHei', 15), width=10, height=2, command=qrcode_show).place(
+    tk.Button(window2, text='(2)Borrow', font=('Microsoft YaHei', 15), width=10, height=2, command=qrcode_show).place(
         x=500, y=550)
 
     window2.mainloop()
@@ -62,21 +65,22 @@ def confirm_borrow():
                          charset='utf8'
                          )
     cursor = db.cursor()
-    sql3 = "SELECT COUNT(*) FROM book WHERE userid='%s' AND name='%s'" % (ID.getid(), e_name.get())
+    sql3 = "SELECT name FROM book WHERE userid='%s' AND name='%s'" % (ID.getid(), e_name.get())
     cursor.execute(sql3)
     result3 = cursor.fetchone()
     print(result3)
-    if result3 == 0:
+    if result3 is None:
         sql = "SELECT name FROM borrow WHERE userid='%s' AND name='%s'" % (ID.getid(), e_name.get())
         cursor.execute(sql)
         result2 = cursor.fetchone()
+        print('not book')
         if result2 is None:
             sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (e_name.get())
             cursor.execute(sql0)
             result = cursor.fetchone()
             if result:
                 if result != '0':
-                    time = dt.datetime.now().strftime('%F')
+                    time = dt.datetime.now().strftime('%F.%H:%M:%S')
                     sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (ID.getid(), e_name.get(), time)
                     sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (e_name.get())
                     cursor.execute(sql)
@@ -94,6 +98,7 @@ def confirm_borrow():
             msg.showinfo(title='Error！', message='You have borrow！')
 
     else:
+        print('have book')
         sql4 = "UPDATE equipment SET amount=amount+1 WHERE name='%s'" % (e_name.get())
         cursor.execute(sql4)
         sql5 = "DELETE FROM book WHERE name='%s' AND userid='%s'" % (e_name.get(), ID.getid())
@@ -184,9 +189,6 @@ def confirm_turnback():
                          charset='utf8'
                          )
     cursor = db.cursor()
-
-    sql1 = "UPDATE equipment SET amount=amount+1 WHERE name='%s'" % (e_name.get())
-    cursor.execute(sql1)
     sql0 = "DELETE FROM borrow WHERE name='%s' AND userid='%s'" % (e_name.get(), ID.getid())
     sql1 = "UPDATE equipment SET amount=amount+1 WHERE name='%s'" % (e_name.get())
     cursor.execute(sql1)
@@ -219,11 +221,12 @@ def confirm_qrcode_borrow():
                          charset='utf8'
                          )
     cursor = db.cursor()
-    sql3 = "SELECT COUNT(*) FROM book WHERE userid='%s' AND name='%s'" % (ID.getid(), gettext())
+    sql3 = "SELECT name FROM book WHERE userid='%s' AND name='%s'" % (ID.getid(), gettext())
     cursor.execute(sql3)
     result3 = cursor.fetchone()
     print(result3)
-    if result3 == 0:
+    if result3 is None:
+        print('not book')
         sql = "SELECT name FROM borrow WHERE userid='%s' AND name='%s'" % (ID.getid(), gettext())
         cursor.execute(sql)
         result2 = cursor.fetchone()
@@ -251,6 +254,7 @@ def confirm_qrcode_borrow():
             msg.showinfo(title='Error！', message='You have borrow！')
 
     else:
+        print('have book')
         sql4 = "UPDATE equipment SET amount=amount+1 WHERE name='%s'" % (gettext())
         cursor.execute(sql4)
         sql5 = "DELETE FROM book WHERE name='%s' AND userid='%s'" % (gettext(), ID.getid())
@@ -265,7 +269,7 @@ def confirm_qrcode_borrow():
             result = cursor.fetchone()
             if result:
                 if result != '0':
-                    time = dt.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
+                    time = dt.datetime.now().strftime('%F.%H:%M:%S')
                     sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (ID.getid(), gettext(), time)
                     sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (gettext())
                     cursor.execute(sql)
