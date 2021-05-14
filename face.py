@@ -63,7 +63,7 @@ def frame():
                   font=('Times New Roman', 25, 'bold'))
     l2.place(x=400 - x_cord, y=190 - y_cord)
 
-    lbl = tk.Label(window, text="Enter Your Student ID", width=20, height=2, fg="black",bg=bg1,
+    lbl = tk.Label(window, text="Enter Your Student ID", width=20, height=2, fg="black", bg=bg1,
                    font=('Times New Roman', 25, 'bold'))
     lbl.place(x=100 - x_cord, y=200 - y_cord)
 
@@ -72,7 +72,7 @@ def frame():
     txt = tk.Entry(window, width=32, bg="white", fg="blue", font=('Times New Roman', 15, ' bold '))
     txt.place(x=100 - x_cord, y=250 - y_cord)
 
-    lbl2 = tk.Label(window, text="Enter Your Name", width=20, fg="black",bg=bg1, height=2,
+    lbl2 = tk.Label(window, text="Enter Your Name", width=20, fg="black", bg=bg1, height=2,
                     font=('Times New Roman', 25, ' bold '))
     lbl2.place(x=100 - x_cord, y=300 - y_cord)
 
@@ -451,43 +451,7 @@ def confirm_borrow():
             msg.showinfo(title='Error！', message='You have borrow！')
 
 
-# def confirm_borrow():
-#     db = pymysql.connect(host='127.0.0.1',
-#                          port=3306,
-#                          user='root',
-#                          passwd='cla051063',
-#                          db='abes',
-#                          charset='utf8'
-#                          )
-#     cursor = db.cursor()
-#     sql = "SELECT name FROM borrow WHERE name='%s' AND userid='%s'" % (e_name.get(), getid())
-#     cursor.execute(sql)
-#     result2 = cursor.fetchone()
-#     if result2 is None:
-#         sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (e_name.get())
-#         cursor.execute(sql0)
-#         result = cursor.fetchone()
-#         if result:
-#             if result != '0':
-#                 time = datetime.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
-#                 sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), e_name.get(), time)
-#                 sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (e_name.get())
-#                 cursor.execute(sql)
-#                 cursor.execute(sql1)
-#                 msg.showinfo(title='Success！', message='The equipment is successfully borrowed!')
-#                 db.commit()
-#                 db.close()
-#                 win.destroy()
-#             else:
-#                 msg.showinfo(title='Error！', message='The equipment is out of stock!')
-#         else:
-#             msg.showinfo(title='Error！', message='The equipment was not found！')
-#     else:
-#         db.close()
-#         msg.showinfo(title='Error！', message='You have borrow！')
-
-
-def turnback():  # 还书
+def turnback():
     global win
     win = tk.Tk()
     win.title('Borrower')
@@ -554,13 +518,7 @@ def confirm_turnback():
     # time1 = datetime.datetime.now()
     sql2 = "SELECT date FROM borrow WHERE name='%s'" % (e_name.get())
     cursor.execute(sql2)
-    # result = cursor.fetchone()
-    # day = (time1 - result[0]).days
-    # print(day)
-    # if day > 30:
-    #     msg.showinfo(title='Successful return', message='You are overdue! Please return it on time next time!')
-    # else:
-    #     msg.showinfo(title='Successful return', message='Return the book successfully, and not more than 30 days')
+
     sql0 = "DELETE FROM borrow WHERE name='%s' AND userid='%s'" % (e_name.get(), getid())
     msg.showinfo(title='Successful return', message='Return the equipment successfully')
     cursor.execute(sql0)
@@ -568,37 +526,6 @@ def confirm_turnback():
     db.commit()
     db.close()
     win.destroy()
-
-
-# def confirm_turnback():
-#     db = pymysql.connect(host='127.0.0.1',
-#                          port=3306,
-#                          user='root',
-#                          passwd='cla051063',
-#                          db='abes',
-#                          charset='utf8'
-#                          )
-#     cursor = db.cursor()
-#
-#     sql1 = "UPDATE equipment SET amount=amount+1 WHERE name='%s'" % (e_name.get())
-#     cursor.execute(sql1)
-#     db.commit()
-#
-#     time1 = datetime.datetime.now()  # 获取现在的时间
-#     sql2 = "SELECT date FROM borrow WHERE name='%s'" % (e_name.get())
-#     cursor.execute(sql2)
-#     result = cursor.fetchone()
-#     day = (time1 - result[0]).days  # 得到时间差，检查图书是否超期
-#     print(day)
-#     if day > 30:
-#         msg.showinfo(title='Successful return', message='You are overdue! Please return it on time next time!')
-#     else:
-#         msg.showinfo(title='Successful return', message='Return the book successfully, and not more than 30 days')
-#     sql0 = "DELETE FROM borrow WHERE name='%s' AND userid='%s'" % (e_name.get(), getid())
-#     cursor.execute(sql0)
-#     db.commit()
-#     db.close()
-#     win.destroy()
 
 
 def qrcode_show():
@@ -623,25 +550,6 @@ def confirm_qrcode_borrow():
                          charset='utf8'
                          )
     cursor = db.cursor()
-    # # test qrcode
-    # sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (get_text())
-    # cursor.execute(sql0)
-    # result = cursor.fetchone()
-    # if result:
-    #     if result != '0':
-    #         time = datetime.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
-    #         sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), get_text(), time)
-    #         sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (get_text())
-    #         cursor.execute(sql)
-    #         cursor.execute(sql1)
-    #         msg.showinfo(title='Success！', message='Borrowed book successfully!')
-    #         db.commit()
-    #         db.close()
-    #         win.destroy()
-    #     else:
-    #         msg.showinfo(title='Error！', message='Your borrowed equipment is out of stock！')
-    # else:
-    #     msg.showinfo(title='Error！', message='The equipment was not found！')
     sql3 = "SELECT COUNT(*) FROM book WHERE userid='%s' AND name='%s'" % (getid(), get_text())
     cursor.execute(sql3)
     result3 = cursor.fetchone()
