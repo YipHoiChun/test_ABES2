@@ -433,7 +433,7 @@ def confirm_borrow():
             result = cursor.fetchone()
             if result:
                 if result != '0':
-                    time = datetime.datetime.now().strftime('%F')  # 得到的时间不是字符串型，我们要把时间转化成字符串型
+                    time = datetime.datetime.now().strftime('%F')
                     sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), e_name.get(), time)
                     sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (e_name.get())
                     cursor.execute(sql)
