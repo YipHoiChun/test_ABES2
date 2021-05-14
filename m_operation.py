@@ -4,7 +4,6 @@ import search
 from tkinter import ttk
 import pymysql
 import search_borrower
-import create_qrcode
 import cv2
 from pyzbar import pyzbar
 import ID

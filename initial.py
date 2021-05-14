@@ -2,7 +2,6 @@ import tkinter as tk
 import borrower
 import manager
 import face
-import create_qrcode
 
 
 def frame():
