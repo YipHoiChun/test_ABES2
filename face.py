@@ -233,8 +233,7 @@ def TrackImages():
     df = pd.read_csv("StudentDetails/StudentDetails.csv")
     cam = cv2.VideoCapture(0)
     font = cv2.FONT_HERSHEY_SIMPLEX
-    # col_names = ['Id', 'Name', 'Date', 'Time']
-    # attendance = pd.DataFrame(columns=col_names)
+
     while True:
         ret, im = cam.read()
         gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
@@ -243,12 +242,9 @@ def TrackImages():
             cv2.rectangle(im, (x, y), (x + w, y + h), (225, 0, 0), 2)
             Id, conf = recognizer.predict(gray[y:y + h, x:x + w])
             if 'Id' in df and (conf < 50):
-                # ts = time.time()
-                # date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
-                # timeStamp = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
+
                 aa = df.loc[df['Id'] == Id]['Name'].values
                 tt = str(Id) + "-" + aa
-                # attendance.loc[len(attendance)] = [Id, aa, date, timeStamp]
 
             else:
                 Id = 'Unknown'
@@ -257,7 +253,6 @@ def TrackImages():
                 noOfFile = len(os.listdir("ImagesUnknown")) + 1
                 cv2.imwrite("ImagesUnknown/Image" + str(noOfFile) + ".jpg", im[y:y + h, x:x + w])
             cv2.putText(im, str(tt), (x, y + h), font, 1, (255, 255, 255), 2)
-        # attendance = attendance.drop_duplicates(subset=['Id'], keep='first')
         cv2.imshow('im', im)
         if (cv2.waitKey(1) == ord('1')):
             break
@@ -399,12 +394,12 @@ def confirm_borrow():
         cursor.execute(sql)
         result2 = cursor.fetchone()
         if result2 is None:
-            sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (get_text())
+            sql0 = "SELECT amount FROM equipment WHERE name='%s'" % (e_name.get())
             cursor.execute(sql0)
             result = cursor.fetchone()
             if result:
                 if result != '0':
-                    time = datetime.datetime.now().strftime('%F')
+                    time = datetime.datetime.now().strftime('%F.%H:%M:%S')
                     sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), e_name.get(), time)
                     sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (e_name.get())
                     cursor.execute(sql)
@@ -569,7 +564,7 @@ def confirm_qrcode_borrow():
             result = cursor.fetchone()
             if result:
                 if result != '0':
-                    time = datetime.datetime.now().strftime('%F')
+                    time = datetime.datetime.now().strftime('%F.%H:%M:%S')
                     sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), get_text(), time)
                     sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (get_text())
                     cursor.execute(sql)
@@ -602,7 +597,7 @@ def confirm_qrcode_borrow():
             result = cursor.fetchone()
             if result:
                 if result != '0':
-                    time = datetime.datetime.now().strftime('%F')
+                    time = datetime.datetime.now().strftime('%F.%H:%M:%S')
                     sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (getid(), get_text(), time)
                     sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (get_text())
                     cursor.execute(sql)
