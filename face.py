@@ -181,7 +181,7 @@ def TakeImages():
             writer.writerow(row)
         csvFile.close()
         # message.configure(text=res)
-        msg.showinfo(title='成功！', message=res)
+        msg.showinfo(title='success！', message=res)
     else:
         if (is_number(Id)):
             res = "Enter Alphabetical Name"
