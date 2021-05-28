@@ -549,7 +549,7 @@ def confirm_qrcode_borrow():
                          charset='utf8'
                          )
     cursor = db.cursor()
-    sql3 = "SELECT COUNT(*) FROM book WHERE userid='%s' AND name='%s'" % (getid(), get_text())
+    sql3 = "SELECT name FROM book WHERE userid='%s' AND name='%s'" % (getid(), get_text())
     cursor.execute(sql3)
     result3 = cursor.fetchone()
     print(result3)

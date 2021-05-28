@@ -236,7 +236,7 @@ def confirm_qrcode_borrow():
             result = cursor.fetchone()
             if result:
                 if result != '0':
-                    time = dt.datetime.now().strftime('%F')
+                    time = dt.datetime.now().strftime('%F.%H:%M:%S')
                     sql = "INSERT INTO borrow VALUES('%s','%s','%s')" % (ID.getid(), gettext(), time)
                     sql1 = "UPDATE equipment SET amount=amount-1 WHERE name='%s'" % (gettext())
                     cursor.execute(sql)
