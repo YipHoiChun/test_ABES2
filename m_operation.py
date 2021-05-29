@@ -12,7 +12,7 @@ import ID
 def frame():
     global win
     win = tk.Tk()
-    win.title('Manager')
+    win.title('Manager Operation')
     win.geometry('700x600')
     win.configure(background='#7DC0F8')
     lable = tk.Label(win, text="Manager ID:", font=('Microsoft YaHei', 50)).place(x=20, y=10)

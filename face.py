@@ -318,7 +318,7 @@ def quit_window():
 def Borrow_frame():
     global window2
     window2 = tk.Tk()
-    window2.title('Borrow')
+    window2.title('Borrower Operation')
     window2.geometry('700x600')
     window2.configure(background='#7DC0F8')
     lable = tk.Label(window2, text="Student ID:  ", font=('Microsoft YaHei', 50)).place(x=20, y=10)

@@ -12,7 +12,7 @@ from pyzbar import pyzbar
 def frame():
     global window2
     window2 = tk.Tk()
-    window2.title('Borrower')
+    window2.title('Borrower Operation')
     window2.configure(background='#7DC0F8')
     window2.geometry('700x600')
     lable = tk.Label(window2, text="Student ID:  ", font=('Microsoft YaHei', 50)).place(x=20, y=10)
